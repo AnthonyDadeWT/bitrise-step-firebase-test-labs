@@ -80,7 +80,7 @@ inputs:
     summary: |
       The path or HTTP URL to your [service account](https://firebase.google.com/docs/app-distribution/android/distribute-gradle#authenticate_using_a_service_account) private key JSON file.
     description: |
-      Follow the documentation hyperlinked above to setup a service account.
+      Follow the [documentation](https://firebase.google.com/docs/app-distribution/android/distribute-gradle#authenticate_using_a_service_account) to setup a service account.
 
       You can avoid pushing this JSON file to your repository by storing the JSON contents as a secret, then in a custom script,
       create a new file, and echo the contents of that secret into the file, and then set this input to that file path.
@@ -91,7 +91,7 @@ inputs:
     title: "Firebase Project ID"
     summary: |
       Firebase Project ID. Can be found in the Firebase console, under the project name in Project settings.
-      
+    description: |
       Note: this is NOT an App ID. There should only be one Project ID for your entire Firebase project, even if it includes multiple "apps".
     is_required: true
     is_sensitive: true
@@ -100,7 +100,6 @@ inputs:
     title: "Path to Integration Tests"
     summary: |
       Path to all of the Flutter integration tests you'd like to deploy to Firebase Test Labs
-      
       example: intgeration_test/foo.dart
     is_required: true
 - test_ios: "true"
