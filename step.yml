@@ -133,9 +133,8 @@ inputs:
     title: Build Flavor
     summary: |
       Specify a specific build flavor you'd like to use to build your project.
-
+    description: |
       This should only be used on projects that have already setup flavors, and you use --flavor <flavor> to build or run your project.
-
       https://docs.flutter.dev/deployment/flavors
     is_required: false
 
@@ -153,6 +152,7 @@ inputs:
     summary: |-
       Xcode Build Configuration.
 
+    description: |
       If not specified, the default Build Configuration will be used.
       Use xcodebuild -list to see available configurations for your project.
       The input value sets xcodebuild's `-configuration` option.
@@ -187,7 +187,6 @@ inputs:
     title: Locale
     summary: |
       Specify the Locale to test on 
-      example: "en_US", "fr_FR"
       [List of locales](https://help.sap.com/docs/SAP_BUSINESSOBJECTS_BUSINESS_INTELLIGENCE_PLATFORM/09382741061c40a989fae01e61d54202/46758c5e6e041014910aba7db0e91070.html)
     is_required: true
 - simulator_model: iphone11pro
