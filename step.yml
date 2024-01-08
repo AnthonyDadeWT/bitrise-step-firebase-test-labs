@@ -239,7 +239,7 @@ inputs:
     description: |
       Make sure to include the -- when adding in additional flags to this input i.e. --flag value --flag value ...
     is_required: false
-- xcode_version: 15.0
+- xcode_version: "15.0"
   opts:
     category: iOS Configuration
     title: "Xcode Version"
