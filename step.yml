@@ -11,11 +11,19 @@ title: |-
   Firebase Test Labs
 summary: |
   Automatic deployment of iOS and Android Flutter Integration tests to Firebase Test Labs 
-description: |
+description: |-
   Automatic deployment of iOS and Android Flutter Integration tests to Firebase Test Labs 
   
   Before using this step, ensure to go through the setup required to test your app on virtual devices
   https://github.com/flutter/flutter/tree/main/packages/integration_test#android-device-testing
+
+  NOTE: To run your project's tests on an iOS device on Firebase Test Labs you must properly 
+  codesign your app in the workflow before this step is run. The documentation can be found here: 
+  https://devcenter.bitrise.io/en/code-signing/ios-code-signing/managing-ios-code-signing-files---automatic-provisioning.html
+  If you would not like to follow the documentation's guidance on using automatic code signing, you could also choose
+  to upload a proper provisioning profile for your iOS application to the Code Signing & Files tab in the workflow editor
+  on Bitrise. Then, add the "Certificate and profile installer" step (without editing the configuration) to your 
+  workflow before this step is run.
 website: https://github.com/AnthonyDadeWT/bitrise-step-firebase-test-labs
 source_code_url: https://github.com/AnthonyDadeWT/bitrise-step-firebase-test-labs
 support_url: https://github.com/AnthonyDadeWT/bitrise-step-firebase-test-labs/issues
