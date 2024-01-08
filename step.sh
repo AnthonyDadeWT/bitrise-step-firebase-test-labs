@@ -33,6 +33,8 @@ echo "* integration_test_path: $integration_test_path"
 echo "* test_ios: $test_ios"
 echo "* test_android: $test_android"
 echo "* build_flavor: $build_flavor"
+echo "* firebase_additional_flags: $firebase_additional_flags"
+
 echo "* ios_configuration: $ios_configuration"
 echo "* scheme: $scheme"
 echo "* output_path: $output_path"
@@ -43,7 +45,9 @@ echo "* orientation: $orientation"
 echo "* workspace: $workspace"
 echo "* config_file_path: $config_file_path"
 echo "* xcode_version: $xcode_version"
+echo "* xcodebuild_additional_flags: $xcodebuild_additional_flags"
 echo "* deployment_target: $deployment_target"
+
 
 echo $BITRISE_APK_PATH
 
@@ -95,23 +99,26 @@ if [ "${test_android}" == "true" ] ; then
     echo "🚀 Deploying Android Tests to Firebase 🚀"
     
     if [ -z "${BITRISE_APK_PATH}" ] && [ -z "${build_flavor}" ] ; then 
-    gcloud firebase test android run --async --type instrumentation \
-    --app build/app/outputs/apk/debug/app-debug.apk \
-    --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-    --timeout 2m \
-    --results-dir="./"
+        gcloud firebase test android run --async --type instrumentation \
+        --app build/app/outputs/apk/debug/app-debug.apk \
+        --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+        --timeout 2m \
+        --results-dir="./"
+        $firebase_additional_flags
     elif [ -z "${build_flavor}" ] ; then
         gcloud firebase test android run --async --type instrumentation \
         --app $BITRISE_APK_PATH \
         --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
         --timeout 2m \
         --results-dir="./"
+        $firebase_additional_flags
     else
         gcloud firebase test android run --async --type instrumentation \
         --app build/app/outputs/apk/$build_flavor/debug/app-$build_flavor-debug.apk \
         --test build/app/outputs/apk/androidTest/$build_flavor/debug/app-$build_flavor-debug-androidTest.apk \
         --timeout 2m \
         --results-dir="./"
+        $firebase_additional_flags
     fi
 fi
 
@@ -130,7 +137,8 @@ if [ "${test_ios}" == "true" ] ; then
         -xcconfig $config_file_path \
         -configuration $ios_configuration \
         -derivedDataPath \
-        $output_path -sdk iphoneos
+        $output_path -sdk iphoneos \
+        $xcodebuild_additional_flags
         popd
 
         pushd $product_path
@@ -140,7 +148,8 @@ if [ "${test_ios}" == "true" ] ; then
         # Running this command asynchrounsly avoids wasting runtime on waiting for test results to come back
         gcloud firebase test ios run --async \
             --test $product_path/ios_tests.zip \
-            --device model=$simulator_model,version=$$xcode_version,locale=$locale,orientation=$orientatio
+            --device model=$simulator_model,version=$$xcode_version,locale=$locale,orientation=$orientation
+            $firebase_additional_flags
 
     else
         flutter build ios --flavor $build_flavor $integration_test_path --release
@@ -153,6 +162,7 @@ if [ "${test_ios}" == "true" ] ; then
         -configuration "$ios_configuration-$build_flavor" \
         -derivedDataPath \
         $output_path -sdk iphoneos
+        $xcodebuild_additional_flags
         popd
 
         pushd $product_path
@@ -171,5 +181,6 @@ if [ "${test_ios}" == "true" ] ; then
         gcloud firebase test ios run --async \
             --test $product_path/ios_tests.zip \
             --device model=$simulator_model,version=$xcode_version,locale=$locale,orientation=$orientation
+            $firebase_additional_flags
     fi
 fi

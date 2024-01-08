@@ -137,6 +137,21 @@ inputs:
       This should only be used on projects that have already setup flavors, and you use --flavor <flavor> to build or run your project.
       https://docs.flutter.dev/deployment/flavors
     is_required: false
+- build_flavor:
+  opts:
+    title: Build Flavor
+    summary: |
+      Specify a specific build flavor you'd like to use to build your project.
+    description: |
+      This should only be used on projects that have already setup flavors, and you use --flavor <flavor> to build or run your project.
+      https://docs.flutter.dev/deployment/flavors
+    is_required: false
+- firebase_additional_flags:
+  opts:
+    title: Additional Firebase Flags
+    summary: |
+      Additional flags to be appended to the Firebase command: gcloud firebase test <platform> run
+    is_required: false
 
 ## iOS Configuration Category ##
 - deployment_target: "17.0"
@@ -213,6 +228,12 @@ inputs:
     title: Path to .xcconfig
     summary: The path that points to the .xcconfig you'd like to use
     is_required: true
+- xcodebuild_additional_flags:
+  opts:
+    title: Additional xcodebuild Flags
+    summary: |
+      Additional flags to be appended to the xcodebuild command
+    is_required: false
 - xcode_version: 15.0
   opts:
     category: iOS Configuration
