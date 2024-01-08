@@ -11,6 +11,7 @@ title: |-
   Firebase Test Labs
 summary: |
   Automatic deployment of iOS and Android Flutter Integration tests to Firebase Test Labs 
+
 description: |-
   [Beta] Automatic deployment of iOS and Android Flutter Integration tests to Firebase Test Labs 
   
@@ -92,7 +93,7 @@ inputs:
     description: |
       Follow the [documentation](https://firebase.google.com/docs/app-distribution/android/distribute-gradle#authenticate_using_a_service_account) to setup a service account.
 
-      You can avoid pushing this JSON file to your repository by storing the JSON contents as a secret, then in a custom script,
+      You can avoid pushing this private key JSON file to your repository by storing the JSON contents as a secret, then in a custom script,
       create a new file, and echo the contents of that secret into the file, and then set this input to that file path.
     is_required: true
     is_sensitive: true
@@ -112,9 +113,14 @@ inputs:
       Path to all of the Flutter integration tests you'd like to deploy to Firebase Test Labs
       example: intgeration_test/foo.dart
     is_required: true
-- test_ios: "true"
+- test_ios: "false"
   opts:
     title: "Run Tests on iOS Device?"
+    summary: "Codesigning required for iOS, see description"
+    description: |
+       NOTE: To run your project's tests on an iOS device on Firebase Test Labs you must properly 
+       codesign your app in the workflow before this step is run. The documentation can be found here: 
+       https://devcenter.bitrise.io/en/code-signing/ios-code-signing/managing-ios-code-signing-files---automatic-provisioning.html
     value_options:
     - "true"
     - "false"
@@ -134,7 +140,8 @@ inputs:
     summary: |
       Specify a specific build flavor you'd like to use to build your project.
 
-      This should only be used on projects that have already setup flavors, and you use --flavor <flavor> to build or run your project.
+      This should only be used on projects that have already setup flavors/custom build configurations, 
+      and if you use --flavor <flavor> to build or run your project.
 
       https://docs.flutter.dev/deployment/flavors
     is_required: false
@@ -161,11 +168,11 @@ inputs:
   opts:
     category: iOS Configuration
     title: Schema
-    summary: Specify an Xcode Schema you'd like to use for iOS 
+    summary: Specify an Xcode Schema you'd like to use for 
     description: |
-      Specify an Xcode Schema you'd like to use for iOS 
-      Run xcodebuild -list in the iOS directory to list available schemes for your project
-      By default, this is set to Runner
+      Specify an Xcode Schema you'd like to use for iOS.
+      Run xcodebuild -list in the iOS directory to list available schemes for your project.
+      By default, this is set to Runner.
 
       example: Runner, dev, release, etc
     is_required: true
@@ -200,7 +207,7 @@ inputs:
   opts:
     category: iOS Configuration
     title: Orientation
-    summary: Specify the device orientation of the device the test is running on
+    summary: Specify the device orientation the test runs against
     is_required: true
 - workspace: Runner.xcworkspace
   opts:
@@ -221,15 +228,16 @@ inputs:
     summary: Specify a version of Xcode
     is_required: true
 
-outputs:
-- EXAMPLE_STEP_OUTPUT:
-  opts:
-    title: "Example Step Output"
-    summary: Summary. No more than 2-3 sentences.
-    description: |
-      Description of this output.
 
-      Can be Markdown formatted text.
+#outputs:
+#- EXAMPLE_STEP_OUTPUT:
+#  opts:
+#    title: "Example Step Output"
+#    summary: Summary. No more than 2-3 sentences.
+#    description: |
+#      Description of this output.
+#
+#      Can be Markdown formatted text.
 
 
 
