@@ -12,7 +12,7 @@ title: |-
 summary: |
   Automatic deployment of iOS and Android Flutter Integration tests to Firebase Test Labs 
 description: |-
-  Automatic deployment of iOS and Android Flutter Integration tests to Firebase Test Labs 
+  [Beta] Automatic deployment of iOS and Android Flutter Integration tests to Firebase Test Labs 
   
   Before using this step, ensure to go through the setup required to test your app on virtual devices
   https://github.com/flutter/flutter/tree/main/packages/integration_test#android-device-testing
