@@ -156,11 +156,37 @@ inputs:
     is_required: false
 
 ## iOS Configuration Category ##
+- simulator_model: iphone11pro
+  opts:
+    category: iOS Configuration
+    title: Specify Device
+    summary: Specify the device Test Labs uses to run your tests
+    description: |
+      NOTE: This input is dependent on the available devices Test Labs has available for you to use
+      with the operating system you'll select below. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
+    is_required: true
 - deployment_target: "16.4"
   opts:
     category: iOS Configuration
     title: iOS Deployment Target
-    summary: iOS Deployment Target, found under the "Info" tab after selecting the Runner Project
+    summary: Specify the iOS version of the device
+    description: |
+      NOTE: This input is dependent on the available operating system Test Labs has available for you to use
+      with the device you've selected above. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
+    is_required: true
+- locale: en_US
+  opts:
+    category: iOS Configuration
+    title: Locale / Language
+    summary: |
+      Specify the Locale to test on 
+      [List of locales](https://help.sap.com/docs/SAP_BUSINESSOBJECTS_BUSINESS_INTELLIGENCE_PLATFORM/09382741061c40a989fae01e61d54202/46758c5e6e041014910aba7db0e91070.html)
+    is_required: true
+- orientation: portrait
+  opts:
+    category: iOS Configuration
+    title: Orientation
+    summary: Specify the device orientation of the device the test is running on
     is_required: true
 - ios_configuration: Release
   opts:
@@ -198,26 +224,6 @@ inputs:
     title: Product Path
     summary: "The path to the zip folder containing a .xctestrun and a folder containing the .app to be deployed"
     is_required: true
-- locale: en_US
-  opts:
-    category: iOS Configuration
-    title: Locale
-    summary: |
-      Specify the Locale to test on 
-      [List of locales](https://help.sap.com/docs/SAP_BUSINESSOBJECTS_BUSINESS_INTELLIGENCE_PLATFORM/09382741061c40a989fae01e61d54202/46758c5e6e041014910aba7db0e91070.html)
-    is_required: true
-- simulator_model: iphone11pro
-  opts:
-    category: iOS Configuration
-    title: Specify Device
-    summary: Specify the device the tests will run on
-    is_required: true
-- orientation: portrait
-  opts:
-    category: iOS Configuration
-    title: Orientation
-    summary: Specify the device orientation of the device the test is running on
-    is_required: true
 - workspace: Runner.xcworkspace
   opts:
     category: iOS Configuration
@@ -230,6 +236,12 @@ inputs:
     title: Path to .xcconfig
     summary: The path that points to the .xcconfig you'd like to use
     is_required: true
+- xcode_version: "15.0"
+  opts:
+    category: iOS Configuration
+    title: "Xcode Version"
+    summary: Specify a version of Xcode
+    is_required: true
 - xcodebuild_additional_flags:
   opts:
     title: Additional xcodebuild Flags
@@ -239,12 +251,6 @@ inputs:
     description: |
       Make sure to include the -- when adding in additional flags to this input i.e. --flag value --flag value ...
     is_required: false
-- xcode_version: "15.0"
-  opts:
-    category: iOS Configuration
-    title: "Xcode Version"
-    summary: Specify a version of Xcode
-    is_required: true
 
 outputs:
 - EXAMPLE_STEP_OUTPUT:
