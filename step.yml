@@ -150,7 +150,7 @@ inputs:
   opts:
     title: Additional Firebase Flags
     summary: |
-      Additional flags to be appended to the Firebase command: gcloud firebase test <platform> run
+      Additional flags to be appended to the Firebase command: gcloud firebase test (platform) run
     is_required: false
 
 ## iOS Configuration Category ##
@@ -231,6 +231,7 @@ inputs:
 - xcodebuild_additional_flags:
   opts:
     title: Additional xcodebuild Flags
+    category: iOS Configuration
     summary: |
       Additional flags to be appended to the xcodebuild command
     is_required: false
