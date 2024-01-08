@@ -154,7 +154,7 @@ inputs:
     is_required: false
 
 ## iOS Configuration Category ##
-- deployment_target: "17.0"
+- deployment_target: "16.4"
   opts:
     category: iOS Configuration
     title: iOS Deployment Target
