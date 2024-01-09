@@ -13,6 +13,8 @@ summary: |
   Automatic deployment of iOS and Android Flutter Integration tests to Firebase Test Labs 
 description: |-
   [Beta] Automatic deployment of iOS and Android Flutter Integration tests to Firebase Test Labs 
+
+  This step allows you to automate the process of deploying tests to be run on **physical devices** on Firebase Test Labs.
   
   - Before using this step, ensure to go through the setup required to test your app on virtual devices
   https://github.com/flutter/flutter/tree/main/packages/integration_test#android-device-testing
@@ -25,6 +27,9 @@ description: |-
   to upload a proper provisioning profile for your iOS application to the Code Signing & Files tab in the workflow editor
   on Bitrise. Then, add the "Certificate and profile installer" step (without editing the configuration) to your 
   workflow before this step is run.
+
+  - To save build credits and time, this step runs the firebase test command with the --async flag, so the command can 
+  be run without waiting for test results to come back. This is not to be confused with the timeout input below.
   
 website: https://github.com/AnthonyDadeWT/bitrise-step-firebase-test-labs
 source_code_url: https://github.com/AnthonyDadeWT/bitrise-step-firebase-test-labs
@@ -112,7 +117,30 @@ inputs:
       Path to all of the Flutter integration tests you'd like to deploy to Firebase Test Labs
       example: intgeration_test/foo.dart
     is_required: true
-- test_ios: "true"
+- locale: en_US
+  opts:
+    title: Locale / Language
+    summary: |
+      Specify the Locale to test on, set to English by default
+      [List of locales](https://help.sap.com/docs/SAP_BUSINESSOBJECTS_BUSINESS_INTELLIGENCE_PLATFORM/09382741061c40a989fae01e61d54202/46758c5e6e041014910aba7db0e91070.html)
+    is_required: true
+- orientation: portrait
+  opts:
+    title: Orientation
+    summary: Specify the device orientation 
+    is_required: true
+- timeout: 15m
+  opts:
+    title: Timeout
+    summary: Set a maximum time limit on how long your tests run for
+    description: |
+      The max time this test execution can run before it is cancelled (default: 15m). 
+      It does not include any time necessary to prepare and clean up the target device. 
+      The maximum possible testing time is 45m on physical devices and 60m on virtual devices
+      The timeout units can be h, m, or s. If no unit is given, seconds are assumed. 
+      Examples: 1h is 1 hour, 200s is 200 seconds, 15m is 15 minutes
+    is_required: true
+- test_ios: "false"
   opts:
     title: "Run Tests on iOS Device?"
     value_options:
@@ -137,15 +165,6 @@ inputs:
       This should only be used on projects that have already setup flavors, and you use --flavor <flavor> to build or run your project.
       https://docs.flutter.dev/deployment/flavors
     is_required: false
-- build_flavor:
-  opts:
-    title: Build Flavor
-    summary: |
-      Specify a specific build flavor you'd like to use to build your project.
-    description: |
-      This should only be used on projects that have already setup flavors, and you use --flavor <flavor> to build or run your project.
-      https://docs.flutter.dev/deployment/flavors
-    is_required: false
 - firebase_additional_flags:
   opts:
     title: Additional Firebase Flags
@@ -159,8 +178,8 @@ inputs:
 - simulator_model: iphone11pro
   opts:
     category: iOS Configuration
-    title: Specify Device
-    summary: Specify the device Test Labs uses to run your tests
+    title: Simulator
+    summary: Specify the simulator Test Labs uses to run your tests
     description: |
       NOTE: This input is dependent on the available devices Test Labs has available for you to use
       with the operating system you'll select below. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
@@ -174,27 +193,12 @@ inputs:
       NOTE: This input is dependent on the available operating system Test Labs has available for you to use
       with the device you've selected above. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
     is_required: true
-- locale: en_US
-  opts:
-    category: iOS Configuration
-    title: Locale / Language
-    summary: |
-      Specify the Locale to test on 
-      [List of locales](https://help.sap.com/docs/SAP_BUSINESSOBJECTS_BUSINESS_INTELLIGENCE_PLATFORM/09382741061c40a989fae01e61d54202/46758c5e6e041014910aba7db0e91070.html)
-    is_required: true
-- orientation: portrait
-  opts:
-    category: iOS Configuration
-    title: Orientation
-    summary: Specify the device orientation of the device the test is running on
-    is_required: true
 - ios_configuration: Release
   opts:
     category: iOS Configuration
     title: Xcode Build Configuration
     summary: |-
       Xcode Build Configuration.
-
     description: |
       If not specified, the default Build Configuration will be used.
       Use xcodebuild -list to see available configurations for your project.
@@ -239,7 +243,7 @@ inputs:
 - xcode_version: "15.0"
   opts:
     category: iOS Configuration
-    title: "Xcode Version"
+    title: Xcode Version
     summary: Specify a version of Xcode
     is_required: true
 - xcodebuild_additional_flags:
@@ -251,6 +255,37 @@ inputs:
     description: |
       Make sure to include the -- when adding in additional flags to this input i.e. --flag value --flag value ...
     is_required: false
+
+## Android Configuration Category ##
+- android_device_model_id: redfin
+  opts:
+    category: Android Configuration
+    title: Device Model ID
+    summary: Specify the Model ID of the Firebase Test Labs Device
+    description: |
+      NOTE: This input is dependent on the available devices Test Labs has available for you to use
+      with the operating system you'll select below. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
+
+      Run gcloud firebase test android models list to see all available devices.
+      **NOTE: For physical devices, you must use the MODEL_ID** 
+    is_required: true
+- android_version: 30
+  opts:
+    category: Android Configuration
+    title: Android API Version
+    summary: Specify the Android API version for the device above
+    description: |
+      NOTE: This input is dependent on the available operating system Test Labs has available for you to use
+      with the device you've selected above. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
+    is_required: true
+- android_test_type: instrumentation
+  opts:
+    category: Android Configuration
+    title: Specify the type of test to run
+    summary: instrumentation, robo, or game-loop
+    is_required: true
+      
+      
 
 outputs:
 - EXAMPLE_STEP_OUTPUT:
