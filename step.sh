@@ -35,6 +35,7 @@ echo "* test_ios: $test_ios"
 echo "* test_android: $test_android"
 echo "* build_flavor: $build_flavor"
 echo "* firebase_additional_flags: $firebase_additional_flags"
+echo "* timeout: $timeout"
 
 # iOS
 echo "* simulator_model: $simulator_model"
@@ -112,18 +113,21 @@ if [ "${test_android}" == "true" ] ; then
         --app build/app/outputs/apk/debug/app-debug.apk \
         --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
         --device model=$simulator_model,version=$android_version,locale=$locale,orientation=$orientation \
+        --timeout $timeout \
         $firebase_additional_flags
     elif [ -z "${build_flavor}" ] ; then
         gcloud firebase test android run --async --type $android_test_type \
         --app $BITRISE_APK_PATH \
         --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
         --device model=$simulator_model,version=$android_version,locale=$locale,orientation=$orientation \
+        --timeout $timeout \
         $firebase_additional_flags
     else
         gcloud firebase test android run --async --type $android_test_type \
         --app build/app/outputs/apk/$build_flavor/debug/app-$build_flavor-debug.apk \
         --test build/app/outputs/apk/androidTest/$build_flavor/debug/app-$build_flavor-debug-androidTest.apk \
         --device model=$simulator_model,version=$android_version,locale=$locale,orientation=$orientation \
+        --timeout $timeout \
         $firebase_additional_flags
     fi
 fi
@@ -156,7 +160,8 @@ if [ "${test_ios}" == "true" ] ; then
         # Running this command asynchrounsly avoids wasting runtime on waiting for test results to come back
         gcloud firebase test ios run --async \
             --test $product_path/ios_tests.zip \
-            --device model=$simulator_model,version=$xcode_version,locale=$locale,orientation=$orientation
+            --device model=$simulator_model,version=$xcode_version,locale=$locale,orientation=$orientation \
+            --timeout $timeout \
             $firebase_additional_flags
 
     else
@@ -190,7 +195,8 @@ if [ "${test_ios}" == "true" ] ; then
         # Running this command asynchrounsly avoids wasting runtime on waiting for test results to come back
         gcloud firebase test ios run --async \
             --test $product_path/ios_tests.zip \
-            --device model=$simulator_model,version=$xcode_version,locale=$locale,orientation=$orientation
+            --device model=$simulator_model,version=$xcode_version,locale=$locale,orientation=$orientation \
+            --timeout $timeout \
             $firebase_additional_flags
     fi
 fi

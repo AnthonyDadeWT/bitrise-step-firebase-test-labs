@@ -126,6 +126,17 @@ inputs:
     title: Orientation
     summary: Specify the device orientation 
     is_required: true
+- timeout: 15m
+  opts:
+    title: Timeout
+    summary: Set a maximum time limit on how long your tests run for
+    description: |
+      The max time this test execution can run before it is cancelled (default: 15m). 
+      It does not include any time necessary to prepare and clean up the target device. 
+      The maximum possible testing time is 45m on physical devices and 60m on virtual devices
+      The TIMEOUT units can be h, m, or s. If no unit is given, seconds are assumed. 
+      Examples: 1h is 1 hour, 200s is 200 seconds, 15m is 15 minutes
+    is_required: true
 - test_ios: "false"
   opts:
     title: "Run Tests on iOS Device?"
