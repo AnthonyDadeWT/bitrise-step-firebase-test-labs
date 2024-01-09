@@ -44,8 +44,7 @@ workflows:
         inputs:
         - service_account_credentials_file: $SERVICE_ACCOUNT_CREDENTIALS_FILE_PATH
         - project_id: $FIREBASE_PROJECT_ID
-        - apk_path: /Users/anthonydade/flutter-prog/bitrise-step-firebase-test-labs/bitrise-step-firebase-test-labs/app-dev-debug.apk
-        - test_apk_path: /Users/anthonydade/flutter-prog/bitrise-step-firebase-test-labs/bitrise-step-firebase-test-labs/app-dev-debug-androidTest.apk
+
         - integration_test_path: $INTEGRATION_TEST_PATH
         - build_flavor: dev
         - ios_configuration: Debug-dev
