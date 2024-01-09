@@ -82,6 +82,8 @@ if [ -z "${integration_test_path}" ] ; then
     exit 1
 fi
 
+echo " 🔑 Authenticating to Firebase 🔑 "
+
 # Authenticate and set project
 gcloud auth activate-service-account --key-file=$service_account_credentials_file
 gcloud --quiet config set project $project_id
@@ -155,6 +157,9 @@ if [ "${test_ios}" == "true" ] ; then
         popd
 
         pushd $product_path
+        echo "Generated the following products:"
+        ls
+
         zip -r "ios_tests.zip" "$ios_configuration-iphoneos" "${scheme}_iphoneos$deployment_target-arm64.xctestrun"
         popd
     
@@ -185,7 +190,7 @@ if [ "${test_ios}" == "true" ] ; then
         popd
 
         pushd $product_path
-        echo "checking folder"
+        echo "Generated the following products:"
         ls
 
         if [ "${build_flavor}" == "${scheme}" ] ; then
