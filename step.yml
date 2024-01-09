@@ -263,12 +263,18 @@ inputs:
     category: Android Configuration
     title: Device Model
     summary: Specify the Android device Test Labs uses to run your tests
+    description: |
+      NOTE: This input is dependent on the available devices Test Labs has available for you to use
+      with the operating system you'll select below. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
     is_required: true
 - android_version: 30
   opts:
     category: Android Configuration
     title: Android API Version
     summary: Specify the Android API version for the device above
+    description: |
+      NOTE: This input is dependent on the available operating system Test Labs has available for you to use
+      with the device you've selected above. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
     is_required: true
 - android_test_type: instrumentation
   opts:
