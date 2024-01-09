@@ -118,7 +118,7 @@ inputs:
     summary: |
       Specify the Locale to test on, set to English by default
       [List of locales](https://help.sap.com/docs/SAP_BUSINESSOBJECTS_BUSINESS_INTELLIGENCE_PLATFORM/09382741061c40a989fae01e61d54202/46758c5e6e041014910aba7db0e91070.html)
-    is_required: false
+    is_required: true
 - orientation: portrait
   opts:
     title: Orientation
@@ -250,8 +250,8 @@ inputs:
     is_required: false
 - android_version: 30
   opts:
-    category: Android API Version
-    title: Version
+    category: Android Configuration
+    title: Android API Version
     summary: Specify the Android API version for the device above
     is_required: false
       
