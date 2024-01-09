@@ -52,7 +52,6 @@ echo "* xcodebuild_additional_flags: $xcodebuild_additional_flags"
 # Android
 echo "* device_model: $android_device_model_id"
 echo "* android_version: $android_version"
-echo "* android_test_type: $android_test_type"
 
 
 if [[ $service_account_credentials_file == http* ]]; then
@@ -73,6 +72,7 @@ if [ -z "${project_id}" ] ; then
 fi
 
 if [ ! -f "${service_account_credentials_file}" ] ; then
+    echo $service_account_credentials_file
     echo "Service Account Credential path is defined but the file does not exist at path: ${service_account_credentials_file}"
     exit 1
 fi
@@ -112,22 +112,22 @@ if [ "${test_android}" == "true" ] ; then
     echo "🚀 Deploying Android Tests to Firebase 🚀"
     
     if [ -z "${BITRISE_APK_PATH}" ] && [ -z "${build_flavor}" ] ; then 
-        gcloud firebase test android run --async --type $android_test_type \
+        gcloud firebase test android run --async --type instrumentation \
         --app build/app/outputs/apk/debug/app-debug.apk \
         --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
         --device model=$android_device_model_id,version=$android_version,locale=$locale,orientation=$orientation \
         --timeout $timeout \
         $firebase_additional_flags
     elif [ -z "${build_flavor}" ] ; then
-        gcloud firebase test android run --async --type $android_test_type \
+        gcloud firebase test android run --async --type instrumentation \
         --app $BITRISE_APK_PATH \
         --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
         --device model=$android_device_model_id,version=$android_version,locale=$locale,orientation=$orientation \
         --timeout $timeout \
         $firebase_additional_flags
     else
-        gcloud firebase test android run --async --type $android_test_type \
-        --app $BITRISE_APK_PATH \
+        gcloud firebase test android run --async --type instrumentation \
+        --app build/app/outputs/apk/$build_flavor/debug/app-$build_flavor-debug.apk \
         --test build/app/outputs/apk/androidTest/$build_flavor/debug/app-$build_flavor-debug-androidTest.apk \
         --device model=$android_device_model_id,version=$android_version,locale=$locale,orientation=$orientation \
         --timeout $timeout \

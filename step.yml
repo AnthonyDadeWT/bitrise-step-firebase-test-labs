@@ -276,12 +276,6 @@ inputs:
       NOTE: This input is dependent on the available operating system Test Labs has available for you to use
       with the device you've selected above. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
     is_required: true
-- android_test_type: instrumentation
-  opts:
-    category: Android Configuration
-    title: Specify the type of test to run
-    summary: instrumentation, robo, or game-loop
-    is_required: true
       
       
 
