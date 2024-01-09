@@ -23,30 +23,37 @@ set -ex
 #=======================================
 # Main
 #=======================================
-#
-# Validate parameters
+
 
 echo "Configs:"
 echo "* service_credentials_file_path: $service_account_credentials_file"
 echo "* project: $project_id"
 echo "* integration_test_path: $integration_test_path"
+echo "* locale: $locale"
+echo "* orientation: $orientation"
 echo "* test_ios: $test_ios"
 echo "* test_android: $test_android"
 echo "* build_flavor: $build_flavor"
 echo "* firebase_additional_flags: $firebase_additional_flags"
+echo "* timeout: $timeout"
 
+# iOS
+echo "* simulator_model: $simulator_model"
+echo "* deployment_target: $deployment_target"
 echo "* ios_configuration: $ios_configuration"
 echo "* scheme: $scheme"
 echo "* output_path: $output_path"
 echo "* product_path: $product_path"
-echo "* locale: $locale"
-echo "* simulator_model: $simulator_model"
-echo "* orientation: $orientation"
 echo "* workspace: $workspace"
 echo "* config_file_path: $config_file_path"
 echo "* xcode_version: $xcode_version"
 echo "* xcodebuild_additional_flags: $xcodebuild_additional_flags"
-echo "* deployment_target: $deployment_target"
+
+# Android
+echo "* device_model: $android_device_model_id"
+echo "* android_version: $android_version"
+echo "* android_test_type: $android_test_type"
+
 
 if [[ $service_account_credentials_file == http* ]]; then
           echo "Service Credentials File is stored as a remote url, downloading it ..."
@@ -75,6 +82,8 @@ if [ -z "${integration_test_path}" ] ; then
     exit 1
 fi
 
+echo " 🔑 Authenticating to Firebase 🔑 "
+
 # Authenticate and set project
 gcloud auth activate-service-account --key-file=$service_account_credentials_file
 gcloud --quiet config set project $project_id
@@ -83,55 +92,59 @@ gcloud --quiet config set project $project_id
 if [ "${test_android}" == "true" ] ; then
     
     pushd android
+    
+    # If the APK is already built we would like to save build time by not building the apk
     if [ -z "${BITRISE_APK_PATH}"] && [ -z "${build_flavor}" ] ; then
-        echo "APK not found, building APK"
+        echo "🛠️ APK not found, building APK 🛠️ "
         flutter build apk 
     elif [ -z "${BITRISE_APK_PATH}" ] && [ ! -z "${build_flavor}" ] ; then 
-        echo "APK not found, building APK with flavor $build_flavor"
+        echo "🛠️ APK not found, building APK with flavor $build_flavor 🛠️"
         flutter build apk --flavor $build_flavor
     else 
-        echo "APK is already built, moving on!"
+        echo "APK is already built, moving on! 😁"
     fi
 
     ./gradlew app:assembleAndroidTest
     ./gradlew app:assembleDebug -Ptarget=$integration_test_path
+
     popd
 
     echo "🚀 Deploying Android Tests to Firebase 🚀"
     
     if [ -z "${BITRISE_APK_PATH}" ] && [ -z "${build_flavor}" ] ; then 
-        gcloud firebase test android run --async --type instrumentation \
+        gcloud firebase test android run --async --type $android_test_type \
         --app build/app/outputs/apk/debug/app-debug.apk \
         --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-        --timeout 2m \
-        --results-dir="./"
+        --device model=$android_device_model_id,version=$android_version,locale=$locale,orientation=$orientation \
+        --timeout $timeout \
         $firebase_additional_flags
     elif [ -z "${build_flavor}" ] ; then
-        gcloud firebase test android run --async --type instrumentation \
+        gcloud firebase test android run --async --type $android_test_type \
         --app $BITRISE_APK_PATH \
         --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-        --timeout 2m \
-        --results-dir="./"
+        --device model=$android_device_model_id,version=$android_version,locale=$locale,orientation=$orientation \
+        --timeout $timeout \
         $firebase_additional_flags
     else
-        gcloud firebase test android run --async --type instrumentation \
+        gcloud firebase test android run --async --type $android_test_type \
         --app build/app/outputs/apk/$build_flavor/debug/app-$build_flavor-debug.apk \
         --test build/app/outputs/apk/androidTest/$build_flavor/debug/app-$build_flavor-debug-androidTest.apk \
-        --timeout 2m \
-        --results-dir="./"
+        --device model=$android_device_model_id,version=$android_version,locale=$locale,orientation=$orientation \
+        --timeout $timeout \
         $firebase_additional_flags
     fi
 fi
 
 ##### iOS Deploy WIP #####
 if [ "${test_ios}" == "true" ] ; then
-    
-    echo "🚀 Deploying iOS Tests to Firebase 🚀"
 
     if [ -z "${build_flavor}" ] ; then
+        echo " 🛠️ Building iOS 🛠️ "
+
         flutter build ios $integration_test_path --release
 
         pushd ios
+
         xcodebuild build-for-testing \
         -workspace $workspace \
         -scheme $scheme \
@@ -140,22 +153,31 @@ if [ "${test_ios}" == "true" ] ; then
         -derivedDataPath \
         $output_path -sdk iphoneos \
         $xcodebuild_additional_flags
+
         popd
 
         pushd $product_path
-        zip -r "ios_tests.zip" "Release-iphoneos" "Runner_iphoneos$$deployment_target-arm64.xctestrun"
+        echo "Generated the following products:"
+        ls
+
+        zip -r "ios_tests.zip" "$ios_configuration-iphoneos" "${scheme}_iphoneos$deployment_target-arm64.xctestrun"
         popd
     
-        # Running this command asynchrounsly avoids wasting runtime on waiting for test results to come back
+        echo "🚀 Deploying iOS Tests to Firebase 🚀"
+
         gcloud firebase test ios run --async \
             --test $product_path/ios_tests.zip \
-            --device model=$simulator_model,version=$$xcode_version,locale=$locale,orientation=$orientation
+            --device model=$simulator_model,version=$xcode_version,locale=$locale,orientation=$orientation \
+            --timeout $timeout \
             $firebase_additional_flags
 
     else
+        echo " 🛠️ Building iOS 🛠️ "
+
         flutter build ios --flavor $build_flavor $integration_test_path --release
 
         pushd ios
+
         xcodebuild build-for-testing \
         -workspace $workspace \
         -scheme $scheme \
@@ -164,24 +186,27 @@ if [ "${test_ios}" == "true" ] ; then
         -derivedDataPath \
         $output_path -sdk iphoneos
         $xcodebuild_additional_flags
+
         popd
 
         pushd $product_path
-        echo "checking folder"
+        echo "Generated the following products:"
         ls
 
         if [ "${build_flavor}" == "${scheme}" ] ; then
-            zip -r "ios_tests.zip" "Release-$build_flavor-iphoneos" "${build_flavor}_${build_flavor}_iphoneos$deployment_target-arm64.xctestrun"
+            zip -r "ios_tests.zip" "$ios_configuration-$build_flavor-iphoneos" "${build_flavor}_${build_flavor}_iphoneos$deployment_target-arm64.xctestrun"
         else
-            zip -r "ios_tests.zip" "Release-$build_flavor-iphoneos" "Runner_iphoneos$deployment_target-arm64.xctestrun"
+            zip -r "ios_tests.zip" "$ios_configuration-$build_flavor-iphoneos" "${scheme}_iphoneos$deployment_target-arm64.xctestrun"
         fi
 
         popd
 
-        # Running this command asynchrounsly avoids wasting runtime on waiting for test results to come back
+        echo "🚀 Deploying iOS Tests to Firebase 🚀"
+
         gcloud firebase test ios run --async \
             --test $product_path/ios_tests.zip \
-            --device model=$simulator_model,version=$xcode_version,locale=$locale,orientation=$orientation
+            --device model=$simulator_model,version=$xcode_version,locale=$locale,orientation=$orientation \
+            --timeout $timeout \
             $firebase_additional_flags
     fi
 fi
