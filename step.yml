@@ -27,6 +27,9 @@ description: |-
   to upload a proper provisioning profile for your iOS application to the Code Signing & Files tab in the workflow editor
   on Bitrise. Then, add the "Certificate and profile installer" step (without editing the configuration) to your 
   workflow before this step is run.
+
+  - To save build credits and time, this step runs the firebase test command with the --async flag, so the command can 
+  be run without waiting for test results to come back. This is not to be confused with the timeout input below.
   
 website: https://github.com/AnthonyDadeWT/bitrise-step-firebase-test-labs
 source_code_url: https://github.com/AnthonyDadeWT/bitrise-step-firebase-test-labs
