@@ -228,7 +228,7 @@ inputs:
 - xcode_version: "15.0"
   opts:
     category: iOS Configuration
-    title: "Xcode Version"
+    title: Xcode Version
     summary: Specify a version of Xcode
     is_required: true
 - xcodebuild_additional_flags:
@@ -253,6 +253,12 @@ inputs:
     category: Android Configuration
     title: Android API Version
     summary: Specify the Android API version for the device above
+    is_required: false
+- android_test_type: instrumentation
+  opts:
+    category: Android Configuration
+    title: Specify the type of test to run
+    summary: instrumentation, robo, or game-loop
     is_required: false
       
       

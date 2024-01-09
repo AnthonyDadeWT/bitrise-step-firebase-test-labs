@@ -52,8 +52,7 @@ echo "* xcodebuild_additional_flags: $xcodebuild_additional_flags"
 # Android
 echo "* device_model: $device_model"
 echo "* android_version: $android_version"
-
-
+echo "* android_test_type: $android_test_type"
 
 
 if [[ $service_account_credentials_file == http* ]]; then
@@ -91,6 +90,7 @@ gcloud --quiet config set project $project_id
 if [ "${test_android}" == "true" ] ; then
     
     pushd android
+
     if [ -z "${BITRISE_APK_PATH}"] && [ -z "${build_flavor}" ] ; then
         echo "APK not found, building APK"
         flutter build apk 
@@ -103,24 +103,25 @@ if [ "${test_android}" == "true" ] ; then
 
     ./gradlew app:assembleAndroidTest
     ./gradlew app:assembleDebug -Ptarget=$integration_test_path
+
     popd
 
     echo "🚀 Deploying Android Tests to Firebase 🚀"
     
     if [ -z "${BITRISE_APK_PATH}" ] && [ -z "${build_flavor}" ] ; then 
-        gcloud firebase test android run --async --type instrumentation \
+        gcloud firebase test android run --async --type $android_test_type \
         --app build/app/outputs/apk/debug/app-debug.apk \
         --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
         --device model=$simulator_model,version=$android_version,locale=$locale,orientation=$orientation \
         $firebase_additional_flags
     elif [ -z "${build_flavor}" ] ; then
-        gcloud firebase test android run --async --type instrumentation \
+        gcloud firebase test android run --async --type $android_test_type \
         --app $BITRISE_APK_PATH \
         --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
         --device model=$simulator_model,version=$android_version,locale=$locale,orientation=$orientation \
         $firebase_additional_flags
     else
-        gcloud firebase test android run --async --type instrumentation \
+        gcloud firebase test android run --async --type $android_test_type \
         --app build/app/outputs/apk/$build_flavor/debug/app-$build_flavor-debug.apk \
         --test build/app/outputs/apk/androidTest/$build_flavor/debug/app-$build_flavor-debug-androidTest.apk \
         --device model=$simulator_model,version=$android_version,locale=$locale,orientation=$orientation \
@@ -137,6 +138,7 @@ if [ "${test_ios}" == "true" ] ; then
         flutter build ios $integration_test_path --release
 
         pushd ios
+
         xcodebuild build-for-testing \
         -workspace $workspace \
         -scheme $scheme \
@@ -145,6 +147,7 @@ if [ "${test_ios}" == "true" ] ; then
         -derivedDataPath \
         $output_path -sdk iphoneos \
         $xcodebuild_additional_flags
+
         popd
 
         pushd $product_path
@@ -161,6 +164,7 @@ if [ "${test_ios}" == "true" ] ; then
         flutter build ios --flavor $build_flavor $integration_test_path --release
 
         pushd ios
+
         xcodebuild build-for-testing \
         -workspace $workspace \
         -scheme $scheme \
@@ -169,6 +173,7 @@ if [ "${test_ios}" == "true" ] ; then
         -derivedDataPath \
         $output_path -sdk iphoneos
         $xcodebuild_additional_flags
+
         popd
 
         pushd $product_path
