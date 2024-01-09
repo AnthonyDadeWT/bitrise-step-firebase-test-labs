@@ -111,19 +111,19 @@ if [ "${test_android}" == "true" ] ; then
         gcloud firebase test android run --async --type instrumentation \
         --app build/app/outputs/apk/debug/app-debug.apk \
         --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-        --device model=$simulator_model,version=$xcode_version,locale=$locale,orientation=$orientation \
+        --device model=$simulator_model,version=$android_version,locale=$locale,orientation=$orientation \
         $firebase_additional_flags
     elif [ -z "${build_flavor}" ] ; then
         gcloud firebase test android run --async --type instrumentation \
         --app $BITRISE_APK_PATH \
         --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-        --device model=$simulator_model,version=$xcode_version,locale=$locale,orientation=$orientation \
+        --device model=$simulator_model,version=$android_version,locale=$locale,orientation=$orientation \
         $firebase_additional_flags
     else
         gcloud firebase test android run --async --type instrumentation \
         --app build/app/outputs/apk/$build_flavor/debug/app-$build_flavor-debug.apk \
         --test build/app/outputs/apk/androidTest/$build_flavor/debug/app-$build_flavor-debug-androidTest.apk \
-        --device model=$simulator_model,version=$xcode_version,locale=$locale,orientation=$orientation \
+        --device model=$simulator_model,version=$android_version,locale=$locale,orientation=$orientation \
         $firebase_additional_flags
     fi
 fi

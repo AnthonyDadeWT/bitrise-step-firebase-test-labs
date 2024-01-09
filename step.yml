@@ -122,7 +122,7 @@ inputs:
 - orientation: portrait
   opts:
     title: Orientation
-    summary: Specify the device orientation of the device the test is running on
+    summary: Specify the device orientation 
     is_required: true
 - test_ios: "true"
   opts:
@@ -162,8 +162,8 @@ inputs:
 - simulator_model: iphone11pro
   opts:
     category: iOS Configuration
-    title: Specify Device
-    summary: Specify the device Test Labs uses to run your tests
+    title: Simulator
+    summary: Specify the simulator Test Labs uses to run your tests
     description: |
       NOTE: This input is dependent on the available devices Test Labs has available for you to use
       with the operating system you'll select below. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
