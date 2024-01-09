@@ -114,15 +114,13 @@ inputs:
     is_required: true
 - locale: en_US
   opts:
-    category: iOS Configuration
     title: Locale / Language
     summary: |
-      Specify the Locale to test on 
+      Specify the Locale to test on, set to English by default
       [List of locales](https://help.sap.com/docs/SAP_BUSINESSOBJECTS_BUSINESS_INTELLIGENCE_PLATFORM/09382741061c40a989fae01e61d54202/46758c5e6e041014910aba7db0e91070.html)
     is_required: false
 - orientation: portrait
   opts:
-    category: iOS Configuration
     title: Orientation
     summary: Specify the device orientation of the device the test is running on
     is_required: true
