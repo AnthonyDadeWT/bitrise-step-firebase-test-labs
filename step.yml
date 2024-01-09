@@ -257,14 +257,17 @@ inputs:
     is_required: false
 
 ## Android Configuration Category ##
-- android_device_model: Pixel 5
+- android_device_model_id: redfin
   opts:
     category: Android Configuration
-    title: Device Model
-    summary: Specify the Android device Test Labs uses to run your tests
+    title: Device Model ID
+    summary: Specify the Model ID of the Firebase Test Labs Device
     description: |
       NOTE: This input is dependent on the available devices Test Labs has available for you to use
       with the operating system you'll select below. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
+
+      Run gcloud firebase test android models list to see all available devices.
+      **NOTE: For physical devices, you must use the MODEL_ID** 
     is_required: true
 - android_version: 30
   opts:

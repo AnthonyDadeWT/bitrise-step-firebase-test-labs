@@ -50,7 +50,7 @@ echo "* xcode_version: $xcode_version"
 echo "* xcodebuild_additional_flags: $xcodebuild_additional_flags"
 
 # Android
-echo "* device_model: $android_device_model"
+echo "* device_model: $android_device_model_id"
 echo "* android_version: $android_version"
 echo "* android_test_type: $android_test_type"
 
@@ -115,21 +115,21 @@ if [ "${test_android}" == "true" ] ; then
         gcloud firebase test android run --async --type $android_test_type \
         --app build/app/outputs/apk/debug/app-debug.apk \
         --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-        --device model=$android_device_model,version=$android_version,locale=$locale,orientation=$orientation \
+        --device model=$android_device_model_id,version=$android_version,locale=$locale,orientation=$orientation \
         --timeout $timeout \
         $firebase_additional_flags
     elif [ -z "${build_flavor}" ] ; then
         gcloud firebase test android run --async --type $android_test_type \
         --app $BITRISE_APK_PATH \
         --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-        --device model=$android_device_model,version=$android_version,locale=$locale,orientation=$orientation \
+        --device model=$android_device_model_id,version=$android_version,locale=$locale,orientation=$orientation \
         --timeout $timeout \
         $firebase_additional_flags
     else
         gcloud firebase test android run --async --type $android_test_type \
         --app build/app/outputs/apk/$build_flavor/debug/app-$build_flavor-debug.apk \
         --test build/app/outputs/apk/androidTest/$build_flavor/debug/app-$build_flavor-debug-androidTest.apk \
-        --device model=$android_device_model,version=$android_version,locale=$locale,orientation=$orientation \
+        --device model=$android_device_model_id,version=$android_version,locale=$locale,orientation=$orientation \
         --timeout $timeout \
         $firebase_additional_flags
     fi
