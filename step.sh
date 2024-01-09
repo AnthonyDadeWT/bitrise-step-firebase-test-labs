@@ -48,9 +48,6 @@ echo "* xcode_version: $xcode_version"
 echo "* xcodebuild_additional_flags: $xcodebuild_additional_flags"
 echo "* deployment_target: $deployment_target"
 
-
-echo $BITRISE_APK_PATH
-
 if [[ $service_account_credentials_file == http* ]]; then
           echo "Service Credentials File is stored as a remote url, downloading it ..."
           curl $service_account_credentials_file --output credentials.json
