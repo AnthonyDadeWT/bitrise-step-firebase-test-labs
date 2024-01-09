@@ -52,7 +52,7 @@ echo "* deployment_target: $deployment_target"
 echo $BITRISE_APK_PATH
 
 if [[ $service_account_credentials_file == http* ]]; then
-          echo "Service Credentials File is a remote url, downloading it ..."
+          echo "Service Credentials File is stored as a remote url, downloading it ..."
           curl $service_account_credentials_file --output credentials.json
           service_account_credentials_file=$(pwd)/credentials.json
           echo "Downloaded Service Credentials File to path: ${service_account_credentials_file}"
@@ -60,18 +60,22 @@ fi
 
 if [ -z "${service_account_credentials_file}" ] ; then
     echo "Service Account Credential File is not defined"
+    exit 1
 fi
 
 if [ -z "${project_id}" ] ; then
-    echo "Firebase App ID is not defined"
+    echo "Firebase Project ID is not defined"
+    exit 1
 fi
 
 if [ ! -f "${service_account_credentials_file}" ] ; then
     echo "Service Account Credential path is defined but the file does not exist at path: ${service_account_credentials_file}"
+    exit 1
 fi
 
 if [ -z "${integration_test_path}" ] ; then
     echo "The path to the integration tests you'd like to deploy is not defined"
+    exit 1
 fi
 
 # Authenticate and set project
