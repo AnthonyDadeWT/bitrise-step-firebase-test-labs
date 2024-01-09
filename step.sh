@@ -127,7 +127,7 @@ if [ "${test_android}" == "true" ] ; then
         $firebase_additional_flags
     else
         gcloud firebase test android run --async --type $android_test_type \
-        --app build/app/outputs/apk/$build_flavor/debug/app-$build_flavor-debug.apk \
+        --app $BITRISE_APK_PATH \
         --test build/app/outputs/apk/androidTest/$build_flavor/debug/app-$build_flavor-debug-androidTest.apk \
         --device model=$android_device_model_id,version=$android_version,locale=$locale,orientation=$orientation \
         --timeout $timeout \
