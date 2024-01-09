@@ -112,6 +112,20 @@ inputs:
       Path to all of the Flutter integration tests you'd like to deploy to Firebase Test Labs
       example: intgeration_test/foo.dart
     is_required: true
+- locale: en_US
+  opts:
+    category: iOS Configuration
+    title: Locale / Language
+    summary: |
+      Specify the Locale to test on 
+      [List of locales](https://help.sap.com/docs/SAP_BUSINESSOBJECTS_BUSINESS_INTELLIGENCE_PLATFORM/09382741061c40a989fae01e61d54202/46758c5e6e041014910aba7db0e91070.html)
+    is_required: false
+- orientation: portrait
+  opts:
+    category: iOS Configuration
+    title: Orientation
+    summary: Specify the device orientation of the device the test is running on
+    is_required: true
 - test_ios: "true"
   opts:
     title: "Run Tests on iOS Device?"
@@ -128,15 +142,6 @@ inputs:
     - "false"
     summary: |
       If you'd like to run your tests on an Android device, set this to true. Otherwise set it to false
-- build_flavor:
-  opts:
-    title: Build Flavor
-    summary: |
-      Specify a specific build flavor you'd like to use to build your project.
-    description: |
-      This should only be used on projects that have already setup flavors, and you use --flavor <flavor> to build or run your project.
-      https://docs.flutter.dev/deployment/flavors
-    is_required: false
 - build_flavor:
   opts:
     title: Build Flavor
@@ -173,20 +178,6 @@ inputs:
     description: |
       NOTE: This input is dependent on the available operating system Test Labs has available for you to use
       with the device you've selected above. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
-    is_required: true
-- locale: en_US
-  opts:
-    category: iOS Configuration
-    title: Locale / Language
-    summary: |
-      Specify the Locale to test on 
-      [List of locales](https://help.sap.com/docs/SAP_BUSINESSOBJECTS_BUSINESS_INTELLIGENCE_PLATFORM/09382741061c40a989fae01e61d54202/46758c5e6e041014910aba7db0e91070.html)
-    is_required: true
-- orientation: portrait
-  opts:
-    category: iOS Configuration
-    title: Orientation
-    summary: Specify the device orientation of the device the test is running on
     is_required: true
 - ios_configuration: Release
   opts:
@@ -251,6 +242,22 @@ inputs:
     description: |
       Make sure to include the -- when adding in additional flags to this input i.e. --flag value --flag value ...
     is_required: false
+
+## Android Configuration Category ##
+- device_model: Pixel 5
+  opts:
+    category: Android Configuration
+    title: Device Model
+    summary: Specify the Android device Test Labs uses to run your tests
+    is_required: false
+- android_version: 30
+  opts:
+    category: Android API Version
+    title: Version
+    summary: Specify the Android API version for the device above
+    is_required: false
+      
+      
 
 outputs:
 - EXAMPLE_STEP_OUTPUT:
