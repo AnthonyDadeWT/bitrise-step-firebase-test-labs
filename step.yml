@@ -126,7 +126,7 @@ inputs:
     title: Orientation
     summary: Specify the device orientation 
     is_required: true
-- test_ios: "true"
+- test_ios: "false"
   opts:
     title: "Run Tests on iOS Device?"
     value_options:
@@ -249,19 +249,19 @@ inputs:
     category: Android Configuration
     title: Device Model
     summary: Specify the Android device Test Labs uses to run your tests
-    is_required: false
+    is_required: true
 - android_version: 30
   opts:
     category: Android Configuration
     title: Android API Version
     summary: Specify the Android API version for the device above
-    is_required: false
+    is_required: true
 - android_test_type: instrumentation
   opts:
     category: Android Configuration
     title: Specify the type of test to run
     summary: instrumentation, robo, or game-loop
-    is_required: false
+    is_required: true
       
       
 

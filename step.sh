@@ -23,8 +23,7 @@ set -ex
 #=======================================
 # Main
 #=======================================
-#
-# Validate parameters
+
 
 echo "Configs:"
 echo "* service_credentials_file_path: $service_account_credentials_file"
