@@ -253,11 +253,11 @@ inputs:
     summary: |
       Additional flags to be appended to the xcodebuild command
     description: |
-      Make sure to include the "--" when adding in additional flags to this input i.e. "--flag value --flag value"
+      Make sure to include the -- when adding in additional flags to this input i.e. --flag value --flag value ...
     is_required: false
 
 ## Android Configuration Category ##
-- device_model: Pixel 5
+- android_device_model: Pixel 5
   opts:
     category: Android Configuration
     title: Device Model

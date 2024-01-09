@@ -50,7 +50,7 @@ echo "* xcode_version: $xcode_version"
 echo "* xcodebuild_additional_flags: $xcodebuild_additional_flags"
 
 # Android
-echo "* device_model: $device_model"
+echo "* device_model: $android_device_model"
 echo "* android_version: $android_version"
 echo "* android_test_type: $android_test_type"
 
@@ -90,15 +90,16 @@ gcloud --quiet config set project $project_id
 if [ "${test_android}" == "true" ] ; then
     
     pushd android
-
+    
+    # If the APK is already built we would like to save build time by not building the apk
     if [ -z "${BITRISE_APK_PATH}"] && [ -z "${build_flavor}" ] ; then
-        echo "APK not found, building APK"
+        echo "🛠️ APK not found, building APK 🛠️ "
         flutter build apk 
     elif [ -z "${BITRISE_APK_PATH}" ] && [ ! -z "${build_flavor}" ] ; then 
-        echo "APK not found, building APK with flavor $build_flavor"
+        echo "🛠️ APK not found, building APK with flavor $build_flavor 🛠️"
         flutter build apk --flavor $build_flavor
     else 
-        echo "APK is already built, moving on!"
+        echo "APK is already built, moving on! 😁"
     fi
 
     ./gradlew app:assembleAndroidTest
@@ -112,21 +113,21 @@ if [ "${test_android}" == "true" ] ; then
         gcloud firebase test android run --async --type $android_test_type \
         --app build/app/outputs/apk/debug/app-debug.apk \
         --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-        --device model=$simulator_model,version=$android_version,locale=$locale,orientation=$orientation \
+        --device model=$android_device_model,version=$android_version,locale=$locale,orientation=$orientation \
         --timeout $timeout \
         $firebase_additional_flags
     elif [ -z "${build_flavor}" ] ; then
         gcloud firebase test android run --async --type $android_test_type \
         --app $BITRISE_APK_PATH \
         --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-        --device model=$simulator_model,version=$android_version,locale=$locale,orientation=$orientation \
+        --device model=$android_device_model,version=$android_version,locale=$locale,orientation=$orientation \
         --timeout $timeout \
         $firebase_additional_flags
     else
         gcloud firebase test android run --async --type $android_test_type \
         --app build/app/outputs/apk/$build_flavor/debug/app-$build_flavor-debug.apk \
         --test build/app/outputs/apk/androidTest/$build_flavor/debug/app-$build_flavor-debug-androidTest.apk \
-        --device model=$simulator_model,version=$android_version,locale=$locale,orientation=$orientation \
+        --device model=$android_device_model,version=$android_version,locale=$locale,orientation=$orientation \
         --timeout $timeout \
         $firebase_additional_flags
     fi
@@ -134,10 +135,10 @@ fi
 
 ##### iOS Deploy WIP #####
 if [ "${test_ios}" == "true" ] ; then
-    
-    echo "🚀 Deploying iOS Tests to Firebase 🚀"
 
     if [ -z "${build_flavor}" ] ; then
+        echo " 🛠️ Building iOS 🛠️ "
+
         flutter build ios $integration_test_path --release
 
         pushd ios
@@ -157,6 +158,7 @@ if [ "${test_ios}" == "true" ] ; then
         zip -r "ios_tests.zip" "$ios_configuration-iphoneos" "${scheme}_iphoneos$deployment_target-arm64.xctestrun"
         popd
     
+        echo "🚀 Deploying iOS Tests to Firebase 🚀"
 
         gcloud firebase test ios run --async \
             --test $product_path/ios_tests.zip \
@@ -165,6 +167,8 @@ if [ "${test_ios}" == "true" ] ; then
             $firebase_additional_flags
 
     else
+        echo " 🛠️ Building iOS 🛠️ "
+
         flutter build ios --flavor $build_flavor $integration_test_path --release
 
         pushd ios
@@ -191,6 +195,8 @@ if [ "${test_ios}" == "true" ] ; then
         fi
 
         popd
+
+        echo "🚀 Deploying iOS Tests to Firebase 🚀"
 
         gcloud firebase test ios run --async \
             --test $product_path/ios_tests.zip \
