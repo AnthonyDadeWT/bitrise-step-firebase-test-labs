@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 #
 # --- Export Environment Variables for other Steps:
