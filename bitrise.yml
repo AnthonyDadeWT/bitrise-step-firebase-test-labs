@@ -5,7 +5,7 @@ app:
   envs:
   # An example secret param, define it (A_SECRET_PARAM) in .bitrise.secrets.yml
   - A_SECRET_PARAM: $A_SECRET_PARAM
-  - SERVICE_ACCOUNT_CREDENTIALS_FILE: ./auth.json
+  - SERVICE_ACCOUNT_CREDENTIALS_FILE: $SERVICE_ACCOUNT_CREDENTIALS_FILE_PATH
   - PROJECT_ID: $FIREBASE_PROJECT_ID
   - SAMPLE_APP: https://github.com/AnthonyDadeWT/flutter_flavor_test_repo.git
   # If you want to share this step into a StepLib
@@ -39,7 +39,7 @@ workflows:
         title: Step Test
         run_if: "true"
         inputs:
-        - service_account_credentials_file: $SERVICE_ACCOUNT_CREDENTIALS_FILE
+        - service_account_credentials_file: $SERVICE_ACCOUNT_CREDENTIALS_FILE_PATH
         - project_id: $FIREBASE_PROJECT_ID
         - integration_test_path: $INTEGRATION_TEST_PATH
         - locale: en_US
