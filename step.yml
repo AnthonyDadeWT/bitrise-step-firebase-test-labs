@@ -182,7 +182,7 @@ inputs:
       NOTE: This input is dependent on the available devices Test Labs has available for you to use
       with the operating system you'll select below. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
     is_required: true
-- deployment_target: "16.4"
+- deployment_target: "16.6"
   opts:
     category: iOS Configuration
     title: iOS Deployment Target
