@@ -238,11 +238,14 @@ inputs:
     title: Path to .xcconfig
     summary: The path that points to the .xcconfig you'd like to use
     is_required: true
-- xcode_version: "15.0"
+- dev_target: "16.4"
   opts:
     category: iOS Configuration
-    title: Xcode Version
-    summary: Specify a version of Xcode
+    title: Development Target
+    summary: Specify a development target
+    description: |
+      The name of the test runner will be “Runner_iphoneos$dev_target-arm64.xctestrun”, 
+      where the value of “dev_target” may vary based on the Xcode version.
     is_required: true
 - xcodebuild_additional_flags:
   opts:

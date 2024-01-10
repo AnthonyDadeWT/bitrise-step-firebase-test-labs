@@ -160,10 +160,10 @@ if [ "${test_ios}" == "true" ] ; then
         echo "Generated the following products:"
         ls
 
-        zip -r "ios_tests.zip" "$ios_configuration-iphoneos" "${scheme}_iphoneos$deployment_target-arm64.xctestrun"
+        zip -r "ios_tests.zip" "$ios_configuration-iphoneos" "${scheme}_iphoneos$dev_target-arm64.xctestrun"
         popd
     
-        echo "🚀 Deploying iOS Tests to Firebase 🚀"
+        echo " 🚀 Deploying iOS Tests to Firebase 🚀 "
 
         gcloud firebase test ios run --async \
             --test $product_path/ios_tests.zip \
@@ -194,9 +194,9 @@ if [ "${test_ios}" == "true" ] ; then
         ls
 
         if [ "${build_flavor}" == "${scheme}" ] ; then
-            zip -r "ios_tests.zip" "$ios_configuration-$build_flavor-iphoneos" "${build_flavor}_${build_flavor}_iphoneos$deployment_target-arm64.xctestrun"
+            zip -r "ios_tests.zip" "$ios_configuration-$build_flavor-iphoneos" "${build_flavor}_${build_flavor}_iphoneos$dev_target-arm64.xctestrun"
         else
-            zip -r "ios_tests.zip" "$ios_configuration-$build_flavor-iphoneos" "${scheme}_iphoneos$deployment_target-arm64.xctestrun"
+            zip -r "ios_tests.zip" "$ios_configuration-$build_flavor-iphoneos" "${scheme}_iphoneos$dev_target-arm64.xctestrun"
         fi
 
         popd
