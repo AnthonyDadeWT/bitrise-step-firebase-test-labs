@@ -167,7 +167,7 @@ if [ "${test_ios}" == "true" ] ; then
 
         gcloud firebase test ios run --async \
             --test $product_path/ios_tests.zip \
-            --device model=$simulator_model,version=$xcode_version,locale=$locale,orientation=$orientation \
+            --device model=$simulator_model,version=$deployment_target,locale=$locale,orientation=$orientation \
             --timeout $timeout \
             $firebase_additional_flags
 
@@ -205,7 +205,7 @@ if [ "${test_ios}" == "true" ] ; then
 
         gcloud firebase test ios run --async \
             --test $product_path/ios_tests.zip \
-            --device model=$simulator_model,version=$xcode_version,locale=$locale,orientation=$orientation \
+            --device model=$simulator_model,version=$deployment_target,locale=$locale,orientation=$orientation \
             --timeout $timeout \
             $firebase_additional_flags
     fi

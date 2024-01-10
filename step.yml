@@ -259,7 +259,7 @@ inputs:
   opts:
     category: Android Configuration
     title: Device Model ID
-    summary: Specify the Model ID of the Firebase Test Labs Device
+    summary: Specify the Model ID of the Firebase Test Labs Device - [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
     description: |
       NOTE: This input is dependent on the available devices Test Labs has available for you to use
       with the operating system you'll select below. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
@@ -271,7 +271,7 @@ inputs:
   opts:
     category: Android Configuration
     title: Android API Version
-    summary: Specify the Android API version for the device above
+    summary: Specify the Android API version for the device above - [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
     description: |
       NOTE: This input is dependent on the available operating system Test Labs has available for you to use
       with the device you've selected above. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)

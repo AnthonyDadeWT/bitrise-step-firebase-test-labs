@@ -19,10 +19,10 @@ workflows:
     steps:
     - script:
         inputs:
-        - content: rm -rf ./_tmp
+        - content: rm -rf ./example
     - change-workdir:
         inputs:
-        - path: ./_tmp
+        - path: ./example
         - is_create_path: true
     - script:
         inputs:
