@@ -16,7 +16,13 @@ description: |-
 
   This step allows you to automate the process of deploying tests to be run on **physical devices** on Firebase Test Labs.
   
-  - Before using this step, ensure to go through the setup required to [test your app on virtual devices](https://github.com/flutter/flutter/tree/main/packages/integration_test#android-device-testing)
+  - Before using this step, ensure to go through the following setup required: 
+
+  - 1) [Setup a Firebase project for your app](https://firebase.google.com/docs/flutter/setup?platform=android)
+
+  - 2) [Setup a Service Account for your Firebase project](https://firebase.google.com/support/guides/service-accounts)
+  
+  - 3) [Setup to test your app on virtual devices](https://github.com/flutter/flutter/tree/main/packages/integration_test#android-device-testing)
 
   - **NOTE**: To run your project's tests on an iOS device on Firebase Test Labs you must properly 
   codesign your app in the workflow before this step is run. [The documentation can be found here](https://devcenter.bitrise.io/en/code-signing/ios-code-signing/managing-ios-code-signing-files---automatic-provisioning.html)
@@ -177,10 +183,10 @@ inputs:
   opts:
     category: iOS Configuration
     title: Simulator
-    summary: Specify the simulator Test Labs uses to run your tests
+    summary: Specify the simulator Test Labs uses to run your tests [Firebase Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
     description: |
       NOTE: This input is dependent on the available devices Test Labs has available for you to use
-      with the operating system you'll select below. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
+      with the operating system you'll select below. [Firebase Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
     is_required: true
 - deployment_target: "16.6"
   opts:
@@ -262,10 +268,10 @@ inputs:
   opts:
     category: Android Configuration
     title: Device Model ID
-    summary: Specify the Model ID of the Firebase Test Labs Device - [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
+    summary: Specify the Model ID of the Firebase Test Labs Device - [Firebase Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
     description: |
       NOTE: This input is dependent on the available devices Test Labs has available for you to use
-      with the operating system you'll select below. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
+      with the operating system you'll select below. [Firebase Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
 
       Run gcloud firebase test android models list to see all available devices.
       **NOTE: For physical devices, you must use the MODEL_ID** 
@@ -274,10 +280,10 @@ inputs:
   opts:
     category: Android Configuration
     title: Android API Version
-    summary: Specify the Android API version for the device above - [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
+    summary: Specify the Android API version for the device above - [Firebase Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
     description: |
       NOTE: This input is dependent on the available operating system Test Labs has available for you to use
-      with the device you've selected above. [Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
+      with the device you've selected above. [Firebase Documentation](https://firebase.google.com/docs/test-lab/android/available-testing-devices)
     is_required: true
       
       
