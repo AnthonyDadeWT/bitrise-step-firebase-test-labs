@@ -16,13 +16,13 @@ description: |-
 
   This step allows you to automate the process of deploying tests to be run on **physical devices** on Firebase Test Labs.
   
-  - Before using this step, ensure to go through the following setup required: 
+  Before using this step, ensure to go through the following setup required: 
 
   - 1) [Setup a Firebase project for your app](https://firebase.google.com/docs/flutter/setup?platform=android)
 
   - 2) [Setup a Service Account for your Firebase project](https://firebase.google.com/support/guides/service-accounts)
   
-  - 3) [Setup to test your app on virtual devices](https://github.com/flutter/flutter/tree/main/packages/integration_test#android-device-testing)
+  - 3) [Project Setup to test your app on virtual devices](https://github.com/flutter/flutter/tree/main/packages/integration_test#android-device-testing)
 
   - **NOTE**: To run your project's tests on an iOS device on Firebase Test Labs you must properly 
   codesign your app in the workflow before this step is run. [The documentation can be found here](https://devcenter.bitrise.io/en/code-signing/ios-code-signing/managing-ios-code-signing-files---automatic-provisioning.html)

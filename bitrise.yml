@@ -31,8 +31,8 @@ workflows:
             echo hello
             set -ex
             git clone $SAMPLE_APP .
-            touch auth.json
-            cat $SERVICE_ACCOUNT_CREDENTIALS_FILE_PATH >> auth.json
+            touch credentials.json
+            cat $SERVICE_ACCOUNT_CREDENTIALS_FILE_PATH >> credentials.json
   deploy-test:
     steps:
     - path::./:
@@ -41,7 +41,7 @@ workflows:
         inputs:
         - service_account_credentials_file: $SERVICE_ACCOUNT_CREDENTIALS_FILE_PATH
         - project_id: $FIREBASE_PROJECT_ID
-        - integration_test_path: $INTEGRATION_TEST_PATH
+        - integration_test_path: ./integration_test/test.dart
         - locale: en_US
         - orientation: portrait
         - build_flavor: free
