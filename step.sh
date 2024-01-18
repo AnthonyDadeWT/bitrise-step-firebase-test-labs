@@ -94,6 +94,14 @@ gcloud --quiet config set project $project_id
 if [ "${test_android}" == "true" ] ; then
     
     pushd android
+
+    # Gradle wrapper is needed
+    if [ -f "./gradlew" ] && [ ! -z "${build_flavor}"] ; then
+        echo "🛠️ Generating required files in android/ for building the app 🛠️"
+        flutter build apk --flavor $build_flavor
+    elif [ -f "./gradlew" ]
+        flutter build apk
+    fi
     
     echo "🛠️ Building androidTest APK and Android APK with Ptarget=$integration_test_path 🛠️"
 
