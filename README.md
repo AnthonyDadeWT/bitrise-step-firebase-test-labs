@@ -1,7 +1,6 @@
 # Firebase Test Labs
 
-Automatic deployment of iOS and Android Flutter Integration tests to Firebase Test Labs 
-
+A Bitrise Step to allow for automatic deployment of iOS and Android Flutter Integration tests to Firebase Test Labs 
 
 ## How to use this Step
 
