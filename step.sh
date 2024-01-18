@@ -96,7 +96,7 @@ if [ "${test_android}" == "true" ] ; then
     pushd android
 
     # Gradle wrapper is needed
-    if [ -f "./gradlew" ] && [ ! -z "${build_flavor}"] ; then
+    if [ -f "./gradlew" ] && [ ! -z "${build_flavor}" ] ; then
         echo "🛠️ Generating required files in android/ for building the app 🛠️"
         flutter build apk --flavor $build_flavor
     elif [ -f "./gradlew" ] ; then
