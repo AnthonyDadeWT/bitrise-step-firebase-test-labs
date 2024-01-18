@@ -142,7 +142,7 @@ if [ "${test_android}" == "true" ] ; then
         android_apk_path="${android_apk_path/$apk_substring/${apk_substring}${insertion}/}"
         android_apk_path="${android_apk_path/$second_substring/${second_substring}${insertion}-}"
         
-        android_test_apk_path=="${android_test_apk_path/$test_apk_substring/${test_apk_substring}${insertion}/}"
+        android_test_apk_path="${android_test_apk_path/$test_apk_substring/${test_apk_substring}${insertion}/}"
         android_test_apk_path="${android_test_apk_path/$second_substring/${second_substring}${insertion}-}"
 
         gcloud firebase test android run --async --type instrumentation \
