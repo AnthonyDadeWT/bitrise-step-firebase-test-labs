@@ -269,12 +269,18 @@ inputs:
     category: Android Configuration
     title: App APK Path
     summary: The path to the APK of your app
+    description: |
+      If you use a build flavor, don't worry about modifying this path as this Step will handle the inclusion of build flavors
+      to the path automatically
     is_required: true
 - android_test_apk_path: build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk
   opts:
     category: Android Configuration
     title: androidTest App APK Path
     summary: The path to the Test APK of your app
+    description: |
+      If you use a build flavor, don't worry about modifying this path as this Step will handle the inclusion of build flavors
+      to the path automatically
     is_required: true
 - android_device_model_id: redfin
   opts:

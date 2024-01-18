@@ -95,16 +95,7 @@ if [ "${test_android}" == "true" ] ; then
     
     pushd android
     
-    # If the APK is already built we would like to save build time by not building the apk
-    if [ -z "${BITRISE_APK_PATH}" ] && [ -z "${build_flavor}" ] ; then
-        echo "🛠️ APK not found, building APK 🛠️ "
-        flutter build apk 
-    elif [ -z "${BITRISE_APK_PATH}" ] && [ ! -z "${build_flavor}" ] ; then 
-        echo "🛠️ APK not found, building APK with flavor $build_flavor 🛠️"
-        flutter build apk --flavor $build_flavor
-    else 
-        echo "APK is already built, moving on! 😁"
-    fi
+    echo "🛠️ Building androidTest APK and Android APK with Ptarget=$integration_test_path 🛠️"
 
     ./gradlew app:assembleAndroidTest
     ./gradlew app:assembleDebug -Ptarget=$integration_test_path
