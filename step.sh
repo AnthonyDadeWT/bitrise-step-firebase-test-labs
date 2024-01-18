@@ -95,11 +95,11 @@ if [ "${test_android}" == "true" ] ; then
     
     pushd android
 
-    # Make sure required Android files are present for building
-    if [ -f "./gradlew" ] && [ -z "${build_flavor}" ] ; then
+    # If the APK does not already exist, build the apk to generate required files in /android for building
+    if [ -z "${BITRISE_APK_PATH}" ] && [ -z "${build_flavor}" ] ; then
         echo "🛠️ APK not found, building APK 🛠️ "
         flutter build apk 
-    elif [ -f "./gradlew" ] && [ ! -z "${build_flavor}" ] ; then 
+    elif [ -z "${BITRISE_APK_PATH}" ] && [ ! -z "${build_flavor}" ] ; then 
         echo "🛠️ APK not found, building APK with flavor $build_flavor 🛠️"
         flutter build apk --flavor $build_flavor
     else 
