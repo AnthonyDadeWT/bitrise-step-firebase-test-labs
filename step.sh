@@ -95,12 +95,15 @@ if [ "${test_android}" == "true" ] ; then
     
     pushd android
 
-    # Gradle wrapper is needed
-    if [ -f "./gradlew" ] && [ ! -z "${build_flavor}" ] ; then
-        echo "🛠️ Generating required files in android/ for building the app 🛠️"
+    # Make sure required Android files are present for building
+    if [ -f "./gradlew" ] && [ -z "${build_flavor}" ] ; then
+        echo "🛠️ APK not found, building APK 🛠️ "
+        flutter build apk 
+    elif [ -f "./gradlew" ] && [ ! -z "${build_flavor}" ] ; then 
+        echo "🛠️ APK not found, building APK with flavor $build_flavor 🛠️"
         flutter build apk --flavor $build_flavor
-    elif [ -f "./gradlew" ] ; then
-        flutter build apk
+    else 
+        echo "APK is already built, moving on! 😁"
     fi
     
     echo "🛠️ Building androidTest APK and Android APK with Ptarget=$integration_test_path 🛠️"
