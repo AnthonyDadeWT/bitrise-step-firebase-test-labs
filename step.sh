@@ -31,11 +31,11 @@ echo "* project: $project_id"
 echo "* integration_test_path: $integration_test_path"
 echo "* locale: $locale"
 echo "* orientation: $orientation"
+echo "* timeout: $timeout"
 echo "* test_ios: $test_ios"
 echo "* test_android: $test_android"
 echo "* build_flavor: $build_flavor"
 echo "* firebase_additional_flags: $firebase_additional_flags"
-echo "* timeout: $timeout"
 
 # iOS
 echo "* simulator_model: $simulator_model"
@@ -50,10 +50,12 @@ echo "* xcode_version: $xcode_version"
 echo "* xcodebuild_additional_flags: $xcodebuild_additional_flags"
 
 # Android
+echo "* apk_path: $android_apk_path"
+echo "* test_apk_path: $android_test_apk_path"
 echo "* device_model: $android_device_model_id"
 echo "* android_version: $android_version"
 
-
+# Validating Importants
 if [[ $service_account_credentials_file == http* ]]; then
           echo "Service Credentials File is stored as a remote url, downloading it ..."
           curl $service_account_credentials_file --output credentials.json
@@ -112,26 +114,44 @@ if [ "${test_android}" == "true" ] ; then
     echo "🚀 Deploying Android Tests to Firebase 🚀"
     
     if [ -z "${BITRISE_APK_PATH}" ] && [ -z "${build_flavor}" ] ; then 
+
         gcloud firebase test android run --async --type instrumentation \
-        --app build/app/outputs/apk/debug/app-debug.apk \
-        --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+        --app $android_apk_path \
+        --test $android_test_apk_path \
         --device model=$android_device_model_id,version=$android_version,locale=$locale,orientation=$orientation \
         --timeout $timeout \
         $firebase_additional_flags
+
     elif [ -z "${build_flavor}" ] ; then
+
         gcloud firebase test android run --async --type instrumentation \
         --app $BITRISE_APK_PATH \
-        --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+        --test $android_test_apk_path \
         --device model=$android_device_model_id,version=$android_version,locale=$locale,orientation=$orientation \
         --timeout $timeout \
         $firebase_additional_flags
+        
     else
+        
+        # Handle the inclusion of build flavor in apk/testapk paths variables
+        apk_substring="/apk/"
+        test_apk_substring="androidTest/"
+        second_substring="app-"
+        insertion=$build_flavor
+
+        android_apk_path="${android_apk_path/$apk_substring/${apk_substring}${insertion}/}"
+        android_apk_path="${android_apk_path/$second_substring/${second_substring}${insertion}-}"
+        
+        android_test_apk_path=="${android_test_apk_path/$test_apk_substring/${test_apk_substring}${insertion}/}"
+        android_test_apk_path="${android_test_apk_path/$second_substring/${second_substring}${insertion}-}"
+
         gcloud firebase test android run --async --type instrumentation \
-        --app build/app/outputs/apk/$build_flavor/debug/app-$build_flavor-debug.apk \
-        --test build/app/outputs/apk/androidTest/$build_flavor/debug/app-$build_flavor-debug-androidTest.apk \
+        --app $android_apk_path \
+        --test $android_test_apk_path \
         --device model=$android_device_model_id,version=$android_version,locale=$locale,orientation=$orientation \
         --timeout $timeout \
         $firebase_additional_flags
+
     fi
 fi
 
