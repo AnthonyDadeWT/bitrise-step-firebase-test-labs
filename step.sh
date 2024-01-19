@@ -27,7 +27,7 @@ set -e
 
 echo "Configs:"
 echo "* service_credentials_file_path: $service_account_credentials_file"
-echo "* project: $project_id"
+echo "* project_id: $project_id"
 echo "* integration_test_path: $integration_test_path"
 echo "* locale: $locale"
 echo "* orientation: $orientation"
@@ -108,10 +108,10 @@ if [ "${test_android}" == "true" ] ; then
         echo "😁 APK is already built, moving on! 😁"
     fi
     
-    echo "🛠️ Building androidTest APK and Android APK with Ptarget=$integration_test_path 🛠️"
+    echo "🛠️ Building androidTest APK and Android APK with Ptarget={$integration_test_path} 🛠️"
 
     ./gradlew app:assembleAndroidTest
-    ./gradlew app:assembleDebug -Ptarget={$integration_test_path}
+    ./gradlew app:assembleDebug -Ptarget=$integration_test_path
 
     popd
 
