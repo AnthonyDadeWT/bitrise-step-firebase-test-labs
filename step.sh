@@ -165,7 +165,7 @@ if [ "${test_ios}" == "true" ] ; then
     if [ -z "${build_flavor}" ] ; then
         echo " 🛠️ Building iOS 🛠️ "
 
-        flutter build ios {$integration_test_path} --release
+        flutter build ios $integration_test_path --release
 
         pushd ios
 
@@ -198,7 +198,7 @@ if [ "${test_ios}" == "true" ] ; then
     else
         echo " 🛠️ Building iOS 🛠️ "
 
-        flutter build ios --flavor $build_flavor {$integration_test_path} --release
+        flutter build ios --flavor $build_flavor $integration_test_path --release
 
         pushd ios
 
