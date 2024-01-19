@@ -118,11 +118,8 @@ inputs:
   opts:
     title: Path to Integration Tests
     summary: |
-      The path to all of the integration tests you'd like to deploy to Firebase Test Labs
-      example: intgeration_test/test1.dart,integration_test/test2.dart
+      Path to integration test file to be sent to Firebase. example: integration_test/foo.dart
     description: |
-      If you are passing in multiple test files, makes sure to have them comma separated and follow the example
-      example: intgeration_test/test1.dart,integration_test/test2.dart
     is_required: true
 - locale: en_US
   opts:
