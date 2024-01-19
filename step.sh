@@ -96,6 +96,8 @@ if [ "${test_android}" == "true" ] ; then
     pushd android
 
     # If the APK does not already exist, build the apk to generate required files in /android for building
+    # When Flutter projects are created, .gitignores are also generated in specific folders with files that are ignored
+    # by default. In the android/ directory, ./gradlew is one of these files, so we need to have this to build the android app
     if [ -z "${BITRISE_APK_PATH}" ] && [ -z "${build_flavor}" ] ; then
         echo "🛠️ APK not found, building APK 🛠️ "
         flutter build apk 
@@ -103,13 +105,13 @@ if [ "${test_android}" == "true" ] ; then
         echo "🛠️ APK not found, building APK with flavor $build_flavor 🛠️"
         flutter build apk --flavor $build_flavor
     else 
-        echo "APK is already built, moving on! 😁"
+        echo "😁 APK is already built, moving on! 😁"
     fi
     
     echo "🛠️ Building androidTest APK and Android APK with Ptarget=$integration_test_path 🛠️"
 
     ./gradlew app:assembleAndroidTest
-    ./gradlew app:assembleDebug -Ptarget=$integration_test_path
+    ./gradlew app:assembleDebug -Ptarget={$integration_test_path}
 
     popd
 
@@ -163,7 +165,7 @@ if [ "${test_ios}" == "true" ] ; then
     if [ -z "${build_flavor}" ] ; then
         echo " 🛠️ Building iOS 🛠️ "
 
-        flutter build ios $integration_test_path --release
+        flutter build ios {$integration_test_path} --release
 
         pushd ios
 
@@ -196,7 +198,7 @@ if [ "${test_ios}" == "true" ] ; then
     else
         echo " 🛠️ Building iOS 🛠️ "
 
-        flutter build ios --flavor $build_flavor $integration_test_path --release
+        flutter build ios --flavor $build_flavor {$integration_test_path} --release
 
         pushd ios
 
