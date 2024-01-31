@@ -46,7 +46,7 @@ echo "* output_path: $output_path"
 echo "* product_path: $product_path"
 echo "* workspace: $workspace"
 echo "* config_file_path: $config_file_path"
-echo "* xcode_version: $xcode_version"
+echo "* dev_target: $dev_target"
 echo "* xcodebuild_additional_flags: $xcodebuild_additional_flags"
 
 # Android
