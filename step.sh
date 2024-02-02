@@ -133,6 +133,7 @@ if [ "${test_android}" == "true" ] ; then
         --test $android_test_apk_path \
         --device model=$android_device_model_id,version=$android_version,locale=$locale,orientation=$orientation \
         --timeout $timeout \
+        --use-orchestrator \
         $firebase_additional_flags
         
     else
@@ -154,6 +155,7 @@ if [ "${test_android}" == "true" ] ; then
         --test $android_test_apk_path \
         --device model=$android_device_model_id,version=$android_version,locale=$locale,orientation=$orientation \
         --timeout $timeout \
+        --use-orchestrator \
         $firebase_additional_flags
 
     fi
