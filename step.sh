@@ -189,7 +189,7 @@ if [ "${test_ios}" == "true" ] ; then
     
         echo " 🚀 Deploying iOS Tests to Firebase 🚀 "
 
-        gcloud firebase test ios run --async \
+        gcloud firebase test ios run --type xctest --async \
             --test $product_path/ios_tests.zip \
             --device model=$simulator_model,version=$deployment_target,locale=$locale,orientation=$orientation \
             --timeout $timeout \
@@ -227,7 +227,7 @@ if [ "${test_ios}" == "true" ] ; then
 
         echo "🚀 Deploying iOS Tests to Firebase 🚀"
 
-        gcloud firebase test ios run --async \
+        gcloud firebase test ios run --type xctest --async \
             --test $product_path/ios_tests.zip \
             --device model=$simulator_model,version=$deployment_target,locale=$locale,orientation=$orientation \
             --timeout $timeout \
