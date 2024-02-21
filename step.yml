@@ -28,7 +28,7 @@ description: |-
   codesign your app in the workflow before this step is run. [The documentation can be found here](https://devcenter.bitrise.io/en/code-signing/ios-code-signing/managing-ios-code-signing-files---automatic-provisioning.html)
 
   - If you would not like to follow the documentation's guidance on using automatic code signing, you could also choose
-  to upload a proper provisioning profile for your iOS application to the Code Signing & Files tab in the workflow editor
+  to upload a proper provisioning profile and code signing certificate for your iOS application to the Code Signing & Files tab in the workflow editor
   on Bitrise. Then, add the "Certificate and profile installer" step (without editing the configuration) to your 
   workflow before this step is run.
 
