@@ -178,14 +178,14 @@ if [ "${test_ios}" == "true" ] ; then
         #$output_path -sdk iphoneos \
         #$xcodebuild_additional_flags
 
-        popd
+        #popd
 
-        pushd $product_path
-        echo "Found the following products in $product_path:"
-        ls
+        #pushd $product_path
+        #echo "Found the following products in $product_path:"
+        #ls
 
-        zip -r "ios_tests.zip" "$ios_configuration-iphoneos" "${scheme}_iphoneos$dev_target-arm64.xctestrun"
-        popd
+        #zip -r "ios_tests.zip" "$ios_configuration-iphoneos" "${scheme}_iphoneos$dev_target-arm64.xctestrun"
+        #popd
     
         echo " 🚀 Deploying iOS Tests to Firebase 🚀 "
 
@@ -200,7 +200,7 @@ if [ "${test_ios}" == "true" ] ; then
 
         #flutter build ios --flavor $build_flavor $integration_test_path --release
 
-        pushd ios
+        #pushd ios
 
         #xcodebuild build-for-testing \
         #-workspace $workspace \
@@ -211,24 +211,24 @@ if [ "${test_ios}" == "true" ] ; then
         #$output_path -sdk iphoneos
         #$xcodebuild_additional_flags
 
-        popd
+        #popd
 
-        pushd $product_path
-        echo "Found the following products in $product_path:"
+        #pushd $product_path
+        #echo "Found the following products in $product_path:"
         #ls
 
-        if [ "${build_flavor}" == "${scheme}" ] ; then
-            zip -r "ios_tests.zip" "$ios_configuration-$build_flavor-iphoneos" "${build_flavor}_${build_flavor}_iphoneos$dev_target-arm64.xctestrun"
-        else
-            zip -r "ios_tests.zip" "$ios_configuration-$build_flavor-iphoneos" "${scheme}_iphoneos$dev_target-arm64.xctestrun"
-        fi
+        #if [ "${build_flavor}" == "${scheme}" ] ; then
+        #    zip -r "ios_tests.zip" "$ios_configuration-$build_flavor-iphoneos" "${build_flavor}_${build_flavor}_iphoneos$dev_target-arm64.xctestrun"
+        #else
+        #    zip -r "ios_tests.zip" "$ios_configuration-$build_flavor-iphoneos" "${scheme}_iphoneos$dev_target-arm64.xctestrun"
+        #fi
 
-        popd
+        #popd
 
         echo "🚀 Deploying iOS Tests to Firebase 🚀"
 
         gcloud firebase test ios run --async \
-            --test $product_path/ios_tests.zip \
+            --test $product_path \
             --device model=$simulator_model,version=$deployment_target,locale=$locale,orientation=$orientation \
             --timeout $timeout \
             $firebase_additional_flags

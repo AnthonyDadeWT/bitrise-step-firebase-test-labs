@@ -37,8 +37,8 @@ description: |-
   1) Add the [Flutter Build](https://bitrise.io/integrations/steps/flutter-build) Step to your workflow.
   Configure this step by editing the following:
 
-    - Under iOS Platform Configs category, for additional parameters ensure to keep --release and add the path to the integration tests you'd like to compile, for example:
-    "--release integration_test/test.dart"
+    - Under the iOS Platform Configs category, for "Additional parameters" ensure to keep --release and add the path to the integration tests you'd like to compile, for example:
+    "--release integration_test/test.dart". Make sure this is only set for iOS, as it will break the android build if used there as well.
 
   2) After the Flutter Build Step, add the [Xcode Build for testing for iOS](https://bitrise.io/integrations/steps/xcode-build-for-test#:~:text=The%20Step%20runs%20Xcode's%20xcodebuild,xctestrun%20file.) Step to your workflow.
   Configure this step by editing the following:
@@ -49,7 +49,7 @@ description: |-
   
   -------------------------------------------------------------------------------------------
 
-  - **Android** Before running this Step in your workflow you must generate an APK and testAPK deploy. 
+  - **Android** Before running this Step in your workflow you must generate an APK and testAPK to deploy. 
 
   **Extra information** 
 
@@ -259,7 +259,7 @@ inputs:
     title: Output Path
     summary: The path to the folder where the iOS integration executable will output
     is_required: true
-- product_path: $BITRISE_TEST_BUNDLE_PATH
+- product_path: $BITRISE_TEST_BUNDLE_ZIP_PATH
   opts:
     category: iOS Configuration
     title: Product Path
