@@ -98,20 +98,20 @@ if [ "${test_android}" == "true" ] ; then
     # If the APK does not already exist, build the apk to generate required files in /android for building
     # When Flutter projects are created, .gitignores are also generated in specific folders with files that are ignored
     # by default. In the android/ directory, ./gradlew is one of these files, so we need to have this to build the android app
-    if [ -z "${BITRISE_APK_PATH}" ] && [ -z "${build_flavor}" ] ; then
-        echo "🛠️ APK not found, building APK 🛠️ "
-        flutter build apk 
-    elif [ -z "${BITRISE_APK_PATH}" ] && [ ! -z "${build_flavor}" ] ; then 
-        echo "🛠️ APK not found, building APK with flavor $build_flavor 🛠️"
-        flutter build apk --flavor $build_flavor
-    else 
-        echo "😁 APK is already built, moving on! 😁"
-    fi
+    #if [ -z "${BITRISE_APK_PATH}" ] && [ -z "${build_flavor}" ] ; then
+    #    echo "🛠️ APK not found, building APK 🛠️ "
+    #    flutter build apk 
+    #elif [ -z "${BITRISE_APK_PATH}" ] && [ ! -z "${build_flavor}" ] ; then 
+    #    echo "🛠️ APK not found, building APK with flavor $build_flavor 🛠️"
+    #    flutter build apk --flavor $build_flavor
+    #else 
+    #    echo "😁 APK is already built, moving on! 😁"
+    #fi
     
-    echo "🛠️ Building androidTest APK and Android APK with Ptarget={$integration_test_path} 🛠️"
+    #echo "🛠️ Building androidTest APK and Android APK with Ptarget={$integration_test_path} 🛠️"
 
-    ./gradlew app:assembleAndroidTest
-    ./gradlew app:assembleDebug -Ptarget=$integration_test_path
+    #./gradlew app:assembleAndroidTest
+    #./gradlew app:assembleDebug -Ptarget=$integration_test_path
 
     popd
 
@@ -163,26 +163,26 @@ fi
 if [ "${test_ios}" == "true" ] ; then
 
     if [ -z "${build_flavor}" ] ; then
-        echo " 🛠️ Building iOS 🛠️ "
+        #echo " 🛠️ Building iOS 🛠️ "
 
-        flutter build ios $integration_test_path --release
+        #flutter build ios $integration_test_path --release
 
         pushd ios
 
-        xcodebuild build-for-testing \
-        -workspace $workspace \
-        -scheme $scheme \
-        -xcconfig $config_file_path \
-        -configuration $ios_configuration \
-        -derivedDataPath \
-        $output_path -sdk iphoneos \
-        $xcodebuild_additional_flags
+        #xcodebuild build-for-testing \
+        #-workspace $workspace \
+        #-scheme $scheme \
+        #-xcconfig $config_file_path \
+        #-configuration $ios_configuration \
+        #-derivedDataPath \
+        #$output_path -sdk iphoneos \
+        #$xcodebuild_additional_flags
 
         popd
 
         pushd $product_path
-        echo "Generated the following products:"
-        ls
+        #echo "Generated the following products:"
+        #ls
 
         zip -r "ios_tests.zip" "$ios_configuration-iphoneos" "${scheme}_iphoneos$dev_target-arm64.xctestrun"
         popd
@@ -196,26 +196,26 @@ if [ "${test_ios}" == "true" ] ; then
             $firebase_additional_flags
 
     else
-        echo " 🛠️ Building iOS 🛠️ "
+        #echo " 🛠️ Building iOS 🛠️ "
 
-        flutter build ios --flavor $build_flavor $integration_test_path --release
+        #flutter build ios --flavor $build_flavor $integration_test_path --release
 
         pushd ios
 
-        xcodebuild build-for-testing \
-        -workspace $workspace \
-        -scheme $scheme \
-        -xcconfig $config_file_path \
-        -configuration "$ios_configuration-$build_flavor" \
-        -derivedDataPath \
-        $output_path -sdk iphoneos
-        $xcodebuild_additional_flags
+        #xcodebuild build-for-testing \
+        #-workspace $workspace \
+        #-scheme $scheme \
+        #-xcconfig $config_file_path \
+        #-configuration "$ios_configuration-$build_flavor" \
+        #-derivedDataPath \
+        #$output_path -sdk iphoneos
+        #$xcodebuild_additional_flags
 
         popd
 
         pushd $product_path
-        echo "Generated the following products:"
-        ls
+        #echo "Generated the following products:"
+        #ls
 
         if [ "${build_flavor}" == "${scheme}" ] ; then
             zip -r "ios_tests.zip" "$ios_configuration-$build_flavor-iphoneos" "${build_flavor}_${build_flavor}_iphoneos$dev_target-arm64.xctestrun"
