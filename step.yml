@@ -30,6 +30,8 @@ description: |-
 
   Before using this step you must generate the required artifacts this Step uses.
 
+  -------------------------------------------------------------------------------------------
+
   - **iOS** Before running this Step in your workflow you must generate a .ipa and .xctestrun to deploy. Follow these steps to do so:
 
   1) Add the [Flutter Build](https://bitrise.io/integrations/steps/flutter-build) Step to your workflow.
@@ -45,6 +47,8 @@ description: |-
     - Ensure your Build Configuration and Scheme is correct. Set Scheme to "Runner", and Build Configuration to "Release" for default projects
     - Under the xcodebuild configuration category, change the Build settings (xcconfig) to ./ios/Flutter/Release.xcconfig
   
+  -------------------------------------------------------------------------------------------
+
   - **Android** Before running this Step in your workflow you must generate an APK and testAPK deploy. 
 
   **Extra information** 
