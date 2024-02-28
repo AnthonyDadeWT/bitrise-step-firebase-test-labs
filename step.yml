@@ -8,21 +8,46 @@
 # - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
 
 title: |-
-  [Beta] Firebase Test Labs
+  [Beta] Flutter Device Testing
 summary: |
-  [Beta] Automatic deployment of iOS and Android Flutter Integration tests through Firebase Test Labs 
+  [Beta] Automatic deployment of iOS and Android Flutter Integration tests, executed through Firebase Test Labs 
 description: |-
-  [Beta] Automatic deployment of iOS and Android Flutter Integration tests to Firebase Test Labs 
+  [Beta] Automatic deployment of iOS and Android Flutter Integration test, executed through Firebase Test Labs 
 
-  This step allows you to automate the process of deploying tests to be run on **physical devices** on Firebase Test Labs.
+  This step allows you to automate the process of deploying integration tests to be run on **physical devices** on Firebase Test Labs.
   
   Before using this step, ensure to go through the following setup required: 
+
+  **Project Setup**
 
   - 1) [Setup a Firebase project for your app](https://firebase.google.com/docs/flutter/setup?platform=android)
 
   - 2) [Setup a Service Account for your Firebase project](https://firebase.google.com/support/guides/service-accounts)
   
   - 3) [Project Setup to test your app on virtual devices](https://github.com/flutter/flutter/tree/main/packages/integration_test#android-device-testing)
+
+  **How to use this step properly**
+
+  Before using this step you must generate the required artifacts this Step uses.
+
+  - **iOS**) Before running this Step in your workflow you must generate a .ipa and .xctestrun to deploy. Follow these steps to do so:
+
+  Add the [Flutter Build](https://bitrise.io/integrations/steps/flutter-build) Step to your workflow.
+  Configure this step by editing the following:
+  
+  - Under iOS Platform Configs category, for additional parameters ensure to keep --release and add the path to the integration tests you'd like to compile, for example:
+  "--release integration_test/foo_test.dart"
+
+  After the Flutter Build Step, add the [Xcode Build for testing for iOS](https://bitrise.io/integrations/steps/xcode-build-for-test#:~:text=The%20Step%20runs%20Xcode's%20xcodebuild,xctestrun%20file.) Step to your workflow.
+  Configure this step by editing the following:
+
+  - Change the project path to ./ios/Runner.xcworkspace (assuming your Flutter project is at the root level)
+  - Ensure your Build Configuration and Scheme is correct. Set Scheme to "Runner", and Build Configuration to "Release" for default projects
+  - Under the xcodebuild configuration category, change the Build settings (xcconfig) to ./ios/Flutter/Release.xcconfig
+  
+  - **Android**) Before running this Step in your workflow you must generate an APK and testAPK deploy. 
+
+  **Extra information** 
 
   - **NOTE**: To run your project's tests on an iOS device on Firebase Test Labs you must properly 
   codesign your app in the workflow before this step is run. [The documentation can be found here](https://devcenter.bitrise.io/en/code-signing/ios-code-signing/managing-ios-code-signing-files---automatic-provisioning.html)
@@ -34,6 +59,10 @@ description: |-
 
   - To save build credits and time, this step runs the firebase test command with the --async flag, so the command can 
   be run without waiting for test results to come back. This is not to be confused with the timeout input below.
+
+  Related Steps
+
+  - [Flutter Build](https://bitrise.io/integrations/steps/flutter-build)
   
 website: https://github.com/AnthonyDadeWT/bitrise-step-firebase-test-labs
 source_code_url: https://github.com/AnthonyDadeWT/bitrise-step-firebase-test-labs
@@ -226,7 +255,7 @@ inputs:
     title: Output Path
     summary: The path to the folder where the iOS integration executable will output
     is_required: true
-- product_path: build/ios_integ/Build/Products
+- product_path: $BITRISE_TEST_BUNDLE_PATH
   opts:
     category: iOS Configuration
     title: Product Path

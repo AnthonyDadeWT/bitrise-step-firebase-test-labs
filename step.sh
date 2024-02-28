@@ -181,8 +181,8 @@ if [ "${test_ios}" == "true" ] ; then
         popd
 
         pushd $product_path
-        #echo "Generated the following products:"
-        #ls
+        echo "Found the following products in $product_path:"
+        ls
 
         zip -r "ios_tests.zip" "$ios_configuration-iphoneos" "${scheme}_iphoneos$dev_target-arm64.xctestrun"
         popd
@@ -214,7 +214,7 @@ if [ "${test_ios}" == "true" ] ; then
         popd
 
         pushd $product_path
-        #echo "Generated the following products:"
+        echo "Found the following products in $product_path:"
         #ls
 
         if [ "${build_flavor}" == "${scheme}" ] ; then
