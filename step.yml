@@ -30,22 +30,22 @@ description: |-
 
   Before using this step you must generate the required artifacts this Step uses.
 
-  - **iOS**) Before running this Step in your workflow you must generate a .ipa and .xctestrun to deploy. Follow these steps to do so:
+  - **iOS** Before running this Step in your workflow you must generate a .ipa and .xctestrun to deploy. Follow these steps to do so:
 
-  Add the [Flutter Build](https://bitrise.io/integrations/steps/flutter-build) Step to your workflow.
-  Configure this step by editing the following:
-  
-  - Under iOS Platform Configs category, for additional parameters ensure to keep --release and add the path to the integration tests you'd like to compile, for example:
-  "--release integration_test/foo_test.dart"
-
-  After the Flutter Build Step, add the [Xcode Build for testing for iOS](https://bitrise.io/integrations/steps/xcode-build-for-test#:~:text=The%20Step%20runs%20Xcode's%20xcodebuild,xctestrun%20file.) Step to your workflow.
+  1) Add the [Flutter Build](https://bitrise.io/integrations/steps/flutter-build) Step to your workflow.
   Configure this step by editing the following:
 
-  - Change the project path to ./ios/Runner.xcworkspace (assuming your Flutter project is at the root level)
-  - Ensure your Build Configuration and Scheme is correct. Set Scheme to "Runner", and Build Configuration to "Release" for default projects
-  - Under the xcodebuild configuration category, change the Build settings (xcconfig) to ./ios/Flutter/Release.xcconfig
+    - Under iOS Platform Configs category, for additional parameters ensure to keep --release and add the path to the integration tests you'd like to compile, for example:
+    "--release integration_test/test.dart"
+
+  2) After the Flutter Build Step, add the [Xcode Build for testing for iOS](https://bitrise.io/integrations/steps/xcode-build-for-test#:~:text=The%20Step%20runs%20Xcode's%20xcodebuild,xctestrun%20file.) Step to your workflow.
+  Configure this step by editing the following:
+
+    - Change the project path to ./ios/Runner.xcworkspace (assuming your Flutter project is at the root level)
+    - Ensure your Build Configuration and Scheme is correct. Set Scheme to "Runner", and Build Configuration to "Release" for default projects
+    - Under the xcodebuild configuration category, change the Build settings (xcconfig) to ./ios/Flutter/Release.xcconfig
   
-  - **Android**) Before running this Step in your workflow you must generate an APK and testAPK deploy. 
+  - **Android** Before running this Step in your workflow you must generate an APK and testAPK deploy. 
 
   **Extra information** 
 
